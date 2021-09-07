@@ -1,0 +1,65 @@
+import {
+    FETCH_COCKTAILS,
+    FETCH_FAVORITES,
+    FETCH_NEW,
+    FETCH_POPULAR,
+    FETCH_PUNCHES,
+    FETCH_SHOTS,
+    LOADING_COCKTAILS,
+    LOADING_FAVORITES,
+    LOADING_NEW,
+    LOADING_POPULAR,
+    LOADING_PUNCHES,
+    LOADING_SHOTS,
+    REFRESHING,
+} from "../types";
+
+const initState = {
+    favorites: [],
+    popular: [],
+    newest: [],
+    cocktails: [],
+    shots: [],
+    punches: [],
+    isLoadingFavorites: true,
+    isLoadingPopular: true,
+    isLoadingNewest: true,
+    isLoadingCocktails: true,
+    isLoadingShots: true,
+    isLoadingPunches: true,
+    isRefreshing: false,
+}
+
+
+export const fetchReducer = (state = initState, action) => {
+    switch (action.type) {
+        case FETCH_FAVORITES:
+            return {...state, favorites: action.payload}
+        case LOADING_FAVORITES:
+            return {...state, isLoadingFavorites: action.payload}
+        case LOADING_POPULAR:
+            return {...state, isLoadingPopular: action.payload}
+        case REFRESHING :
+            return {...state, isRefreshing: action.payload}
+        case FETCH_POPULAR:
+            return {...state, popular: action.payload}
+        case FETCH_NEW:
+            return {...state, newest: action.payload}
+        case LOADING_NEW:
+            return {...state, isLoadingNewest: action.payload}
+        case FETCH_COCKTAILS:
+            return {...state, cocktails: action.payload}
+        case LOADING_COCKTAILS:
+            return {...state, isLoadingCocktails: action.payload}
+        case FETCH_SHOTS:
+            return {...state, shots: action.payload}
+        case LOADING_SHOTS:
+            return {...state, isLoadingShots: action.payload}
+        case FETCH_PUNCHES:
+            return {...state, punches: action.payload}
+        case LOADING_PUNCHES:
+            return {...state, isLoadingPunches: action.payload}
+        default:
+            return state
+    }
+}
