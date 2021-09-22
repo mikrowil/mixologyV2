@@ -1,79 +1,23 @@
 import React, {useState} from "react";
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
-import {AntDesign} from "@expo/vector-icons";
-import firebase from "firebase";
-import {auth, firestore} from "../configs/firebaseSetup";
-import {useDispatch} from "react-redux";
-import {fetchFavorites} from "../redux/actions/fetchActions";
 
 const DrinkCard = ({item, addFave, isFave}) => {
     const navigation = useNavigation()
-    const dispatch = useDispatch()
-    const [starOn, toggleStar] = useState(isFave ? "star" : "staro")
-    const [isFavorite, setIsFavorite] = useState(isFave)
-    const [isAvailable, setIsAvailable] = useState(true)
+
     const id = item.idDrink
 
-    const initToggle = () => {
-        if (isAvailable) {
-            setIsAvailable(false)
-            toggle().then(setIsAvailable(true))
-        }
-    }
-
-    const toggle = async () => {
-
-        const ref = firestore.collection("users").doc(auth.currentUser.uid)
-
-        if (isFavorite) {
-            setIsFavorite(false)
-
-            const response = await ref.update({
-                favorites: firebase.firestore.FieldValue.arrayRemove({
-                    idDrink: id,
-                    strDrink: item.strDrink,
-                    strDrinkThumb: item.strDrinkThumb,
-                })
-            })
-
-            dispatch(fetchFavorites())
-
-            toggleStar("staro")
-        } else {
-            setIsFavorite(true)
-
-
-            const response = await ref.update({
-                favorites: firebase.firestore.FieldValue.arrayUnion({
-                    idDrink: id,
-                    strDrink: item.strDrink,
-                    strDrinkThumb: item.strDrinkThumb,
-                })
-            })
-            dispatch(fetchFavorites())
-            toggleStar("star")
-        }
-
-
-    }
-
-    return (
-        <View style={[styles.container]}>
-            <TouchableOpacity disabled={!isAvailable} onPress={() => initToggle()} style={styles.star_container}>
-                <AntDesign style={styles.star} size={25} name={`${starOn}`}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-                navigation.navigate("ShowScreen", {
-                    id: id
-                })
-            }}>
-
-                <Image style={styles.image} source={{uri: item.strDrinkThumb}}/>
+    return (<TouchableOpacity onPress={() => {
+        navigation.navigate("ShowScreen", {
+            id: id,
+            isFave,
+            item
+        })
+    }}>
+        <ImageBackground imageStyle={{borderRadius:25}} source={{uri: item.strDrinkThumb}} style={[styles.container]}>
                 <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
-
-            </TouchableOpacity>
-        </View>
+        </ImageBackground>
+        </TouchableOpacity>
     )
 }
 
@@ -100,27 +44,31 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 10,
         top: 10,
+        textShadowColor: '#000000',
+        textShadowRadius: 1,
     },
     container: {
         marginHorizontal: 5,
 
-        borderWidth: 1,
-        width: 250,
+        width: 200,
+        height:250,
         borderColor: 'black',
-        borderRadius: 5,
-        backgroundColor: "#bc703f",
+        borderRadius: 25,
+        backgroundColor: "#FFFBFC",
 
         alignSelf: "center",
 
     },
     text_drink: {
         marginHorizontal: 10,
-        marginVertical: 10,
-        color:'white',
-        fontFamily: 'OpenSans_300Light',
-        alignSelf: "center",
-        fontSize: 24,
+        marginTop:'auto',
+        marginBottom:10,
+        color:'#ebebeb',
+        fontFamily: 'Poppins_800ExtraBold',
 
+        fontSize: 24,
+        textShadowColor:'#000000',
+        textShadowRadius:5,
     },
 
 })

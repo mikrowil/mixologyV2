@@ -117,7 +117,7 @@ const HomeScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#cfbd90",
+        backgroundColor: "#242525",
 
     },
 

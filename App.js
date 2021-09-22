@@ -16,13 +16,12 @@ import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from './src/redux/store'
 import {
     useFonts,
-    OpenSans_300Light
-
+    OpenSans_300Light,
+    OpenSans_800ExtraBold,
+    OpenSans_600SemiBold
 
 } from '@expo-google-fonts/open-sans';
-import {
-    Poppins_600SemiBold
-} from '@expo-google-fonts/poppins'
+import {Poppins_800ExtraBold}from '@expo-google-fonts/poppins'
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -46,7 +45,9 @@ const NavContainer = ()=>{
 
     const[fontsLoaded] = useFonts({
         OpenSans_300Light,
-        Poppins_600SemiBold
+        OpenSans_800ExtraBold,
+        Poppins_800ExtraBold,
+        OpenSans_600SemiBold
     })
 
     useEffect(()=>{

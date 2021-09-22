@@ -23,7 +23,7 @@ const SearchBar = ({term,onTermChange,onTermSubmit}) =>{
 
 const styles = StyleSheet.create({
     background:{
-        backgroundColor:"#ffffff",
+        backgroundColor:"#ebebeb",
         height:50,
         borderRadius:25,
         marginHorizontal:15,

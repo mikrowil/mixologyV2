@@ -2,6 +2,10 @@ import React, {useEffect, useState, memo} from "react";
 import {Text, View, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native'
 import cocktailsApi from "../api/cocktailApi";
 import {AntDesign} from '@expo/vector-icons'
+import {auth, firestore} from "../configs/firebaseSetup";
+import firebase from "firebase";
+import {fetchFavorites} from "../redux/actions/fetchActions";
+import {useDispatch} from "react-redux";
 
 /*
     The show drink screen shows a drink that has been selected by the user,
@@ -11,6 +15,13 @@ const ShowDrinkScreen = ({route, navigation}) =>{
 
     //Id of the drink that has been selected to use
     const id = route.params.id
+    const item = route.params.item
+
+    const dispatch = useDispatch()
+
+    const [starOn, toggleStar] = useState(route.params.isFave ? "star" : "staro")
+    const [isFavorite, setIsFavorite] = useState(route.params.isFave)
+    const [isAvailable, setIsAvailable] = useState(true)
 
     //State to hold the data for the drink
     const [cocktail,setCocktails] = useState([])
@@ -18,6 +29,49 @@ const ShowDrinkScreen = ({route, navigation}) =>{
 
     //Loading state of the drink
     const [isLoading,setIsLoading] = useState(true)
+
+    const initToggle = () => {
+        if (isAvailable) {
+            setIsAvailable(false)
+            toggle().then(setIsAvailable(true))
+        }
+    }
+
+    const toggle = async () => {
+
+        const ref = firestore.collection("users").doc(auth.currentUser.uid)
+
+        if (isFavorite) {
+            setIsFavorite(false)
+
+            const response = await ref.update({
+                favorites: firebase.firestore.FieldValue.arrayRemove({
+                    idDrink: id,
+                    strDrink: item.strDrink,
+                    strDrinkThumb: item.strDrinkThumb,
+                })
+            })
+
+            dispatch(fetchFavorites())
+
+            toggleStar("staro")
+        } else {
+            setIsFavorite(true)
+
+
+            const response = await ref.update({
+                favorites: firebase.firestore.FieldValue.arrayUnion({
+                    idDrink: id,
+                    strDrink: item.strDrink,
+                    strDrinkThumb: item.strDrinkThumb,
+                })
+            })
+            dispatch(fetchFavorites())
+            toggleStar("star")
+        }
+
+
+    }
 
     //Parses the ingredients from the database
     const getIngredients = (cocktails) =>{
@@ -77,45 +131,44 @@ const ShowDrinkScreen = ({route, navigation}) =>{
             </View>
 
             {!isLoading?
-                <ScrollView style={styles.list_container}>
+                <View style={styles.list_container}>
+                    <TouchableOpacity disabled={!isAvailable} onPress={() => initToggle()} style={styles.star_container}>
+                        <AntDesign color={"#FFFBFC"} style={styles.star} size={25} name={`${starOn}`}/>
+                    </TouchableOpacity>
+                    <ScrollView>
 
-                <Image source={{uri:cocktail[0].strDrinkThumb}} style={styles.image}/>
+                        <Image source={{uri:cocktail[0].strDrinkThumb}} style={styles.image}/>
 
-                <View style={styles.grid_one}>
-                    <View style={styles.grid_one_one}>
-                        <Text style={styles.tex}>
-                            <Text style={{fontWeight:"bold"}}>Name:</Text>
-                        </Text>
+                        <View style={styles.grid_one}>
 
-                        <Text style={styles.tex}>
-                            <Text style={{fontWeight:"bold"}}>Category:</Text>
-                        </Text>
-                        {cocktail[0].strIBA ? <Text style={styles.tex}><Text style={{fontWeight:"bold"}}>IBA:</Text></Text>:null}
-                        <Text style={styles.tex}>
-                            <Text style={{fontWeight:"bold"}}>Type:</Text>
-                        </Text>
-                        <Text style={styles.tex}>
-                            <Text style={{fontWeight:"bold"}}>Glass:</Text>
-                        </Text>
-                    </View>
-                    <View style={styles.grid_one_two}>
-                        <Text style={styles.tex}>{cocktail[0].strDrink}</Text>
-                        <Text style={styles.tex}>{cocktail[0].strCategory}</Text>
-                        {cocktail[0].strIBA ? <Text style={styles.tex}>{cocktail[0].strIBA}</Text>:null}
-                        <Text style={styles.tex}>{cocktail[0].strAlcoholic}</Text>
-                        <Text style={styles.tex}>{cocktail[0].strGlass}</Text>
-                    </View>
+
+                                <Text style={styles.text}>Name: {cocktail[0].strDrink}</Text>
+
+
+
+                                <Text style={styles.text}>Category: {cocktail[0].strCategory}</Text>
+
+                                {cocktail[0].strIBA ? <Text style={styles.text}>IBA: {cocktail[0].strIBA}</Text>:null}
+
+                                <Text style={styles.text}>Type: {cocktail[0].strAlcoholic}</Text>
+
+
+                                <Text style={styles.text}>Glass: {cocktail[0].strGlass}</Text>
+
+
+
+                        </View>
+                        <View style={styles.txt_container}>
+                            <Text style={styles.text}><Text style={{fontWeight:"bold"}}>Instructions:</Text> {cocktail[0].strInstructions}</Text>
+                        </View>
+                        <View style={styles.txt_container}>
+
+                            {ingredients.map((item,index)=>(
+                                <Text key={index} style={styles.text_ingredients}>{item.ment} {item.name}</Text>
+                            ))}
+                        </View>
+                    </ScrollView>
                 </View>
-                <View style={styles.txt_container}>
-                    <Text style={styles.tex}><Text style={{fontWeight:"bold"}}>Instructions:</Text> {cocktail[0].strInstructions}</Text>
-                </View>
-                <View style={styles.txt_container}>
-
-                    {ingredients.map((item,index)=>(
-                        <Text key={index} style={styles.tex}>{item.ment} {item.name}</Text>
-                    ))}
-                </View>
-            </ScrollView>
                 :
                 <ActivityIndicator
                     size={'large'}
@@ -125,21 +178,51 @@ const ShowDrinkScreen = ({route, navigation}) =>{
     )
 }
 const styles = StyleSheet.create({
-    tex:{
+    text:{
         fontSize:18,
         marginVertical:10,
         marginHorizontal:5,
         lineHeight:30,
-        fontFamily: 'OpenSans_300Light',
+        color:'#ebebeb',
+        fontFamily: 'OpenSans_600SemiBold',
     },
-    tex_label:{
+    text_ingredients:{
+        backgroundColor:'#1c0218',
+        fontSize:18,
+        marginVertical:10,
+        marginHorizontal:5,
+        lineHeight:30,
+        color:'#ebebeb',
+        fontFamily: 'OpenSans_600SemiBold',
+        width:'90%',
+        borderRadius: 25,
+    },
+    list_container:{
+        height:'85%',
 
+    },
+    star_container: {
+        width: 50,
+        height: 50,
+        position: "absolute",
+        right: 10,
+        top: 10,
+        zIndex: 1,
+    },
+    star: {
+        position: "absolute",
+        right: 10,
+        top: 10,
+        textShadowColor: '#000000',
+        textShadowRadius: 1,
     },
     header:{
         paddingTop:'10%',
-        backgroundColor: '#800020',
+        backgroundColor: '#242525',
         justifyContent:'center',
-        paddingHorizontal:15
+        paddingHorizontal:15,
+        borderBottomWidth:2,
+
     },
     back_button:{
         marginVertical:10,
@@ -147,41 +230,29 @@ const styles = StyleSheet.create({
 
     container:{
         height:'100%',
-        backgroundColor: "#efe9ef",
+        backgroundColor: "#242525",
         width:'100%',
 
     },
     grid_one:{
-        flexDirection:"row",
+
         marginHorizontal: 5,
         marginVertical: 10,
-        borderWidth:1,
         width:"90%",
-        borderColor:'black',
-        borderRadius: 10,
-        backgroundColor:'white',
-        fontFamily: 'OpenSans_300Light',
+
         alignSelf: "center",
     },
-    grid_one_one:{
-        flex:3,
-        alignItems:"flex-end",
-    },
-    grid_one_two:{
-        flex:4,
-        alignItems:"flex-start",
-    },
+
     txt_container:{
         marginHorizontal: 5,
         marginVertical: 10,
-        borderWidth:1,
+
         width:"90%",
-        borderColor:'black',
-        borderRadius: 10,
+
         alignItems:"center",
-        backgroundColor:'white',
+
         alignSelf: "center",
-        fontFamily: 'OpenSans_300Light',
+        fontFamily: 'OpenSans_600SemiBold',
 
     },
     image:{

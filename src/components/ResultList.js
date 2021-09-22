@@ -52,9 +52,12 @@ const styles = StyleSheet.create({
         marginHorizontal: '2%',
     },
     text: {
-        fontFamily: "OpenSans_300Light",
+        fontFamily: "OpenSans_800ExtraBold",
         marginLeft: 5,
-        fontSize: 24,
+        fontSize: 32,
+        color:'#ebebeb',
+        textShadowRadius:1,
+        textShadowColor:'#000000',
     },
     list_container:{
         paddingVertical:'3%',

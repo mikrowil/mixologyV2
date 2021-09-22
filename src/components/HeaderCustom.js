@@ -14,7 +14,7 @@ const HeaderCustom = () => {
         <TouchableOpacity onPress={() => {
             toggleDrawer()
         }}>
-            <Feather style={styles.icon_menu} color={"#ecc5cf"} size={24} name={"menu"}/>
+            <Feather style={styles.icon_menu} color={"#ebebeb"} size={24} name={"menu"}/>
         </TouchableOpacity>
         <View style={{width: "90%", marginBottom: 10,}}>
             <SearchBar
@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: 'row',
         justifyContent: "space-between",
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
 
         paddingHorizontal: 15,
         paddingTop: '15%',
 
-        backgroundColor: "#3d1f1d",
+        backgroundColor: "#242525",
 
     },
     icon_account: {
