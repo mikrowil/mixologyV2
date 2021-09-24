@@ -32,6 +32,8 @@ const FavoriteScreen = () => {
             <HeaderCustom/>
             <View style={styles.list_container}>
                 <ResultList
+                    horizontal={false}
+                    title={"Favorites"}
                     refreshControl={refreshControl}
                     cocktails={favorites}
                     isAFave={isAFave}
@@ -44,12 +46,12 @@ const FavoriteScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#efe9ef",
+        backgroundColor: "#242525",
 
     },
 
     list_container: {
-        height: "83%",
+        height:"87%",
         alignContent: "center"
     }
 })

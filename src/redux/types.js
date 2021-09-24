@@ -2,6 +2,7 @@
 export const CHECK_AUTH = 'CHECK_AUTH'
 
 //Fetches
+export const FETCH_SEARCH = 'FETCH_SEARCH'
 export const FETCH_FAVORITES = 'FETCH_FAVORITES'
 export const FETCH_POPULAR = 'FETCH_POPULAR'
 export const FETCH_NEW = 'FETCH_NEW'
@@ -11,6 +12,7 @@ export const FETCH_PUNCHES = 'FETCH_PUNCHES'
 
 //Loading
 export const LOADING_FAVORITES = 'LOADING_FAVORITES'
+export const LOADING_SEARCH = 'LOADING_SEARCH'
 export const LOADING_POPULAR = 'LOADING_POPULAR'
 export const LOADING_NEW = 'LOADING_NEW'
 export const LOADING_COCKTAILS = 'LOADING_COCKTAILS'

@@ -84,7 +84,7 @@ const ShowDrinkScreen = ({route, navigation}) =>{
                 let strMeasures = `strMeasure${index}`
                 let response = {name:cocktails[0][`${strIngreds}`],ment:cocktails[0][`${strMeasures}`]}
 
-                if(response.name !== null){
+                if(response.name !== null && response.name !== ""){
                     myIngreds.push(response)
 
                 }else {
@@ -135,36 +135,40 @@ const ShowDrinkScreen = ({route, navigation}) =>{
                     <TouchableOpacity disabled={!isAvailable} onPress={() => initToggle()} style={styles.star_container}>
                         <AntDesign color={"#FFFBFC"} style={styles.star} size={25} name={`${starOn}`}/>
                     </TouchableOpacity>
-                    <ScrollView>
+                    <ScrollView scrollIndicatorInsets={{right:1}}>
 
                         <Image source={{uri:cocktail[0].strDrinkThumb}} style={styles.image}/>
 
                         <View style={styles.grid_one}>
 
 
-                                <Text style={styles.text}>Name: {cocktail[0].strDrink}</Text>
+                                <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Name: </Text> {cocktail[0].strDrink}</Text>
 
 
 
-                                <Text style={styles.text}>Category: {cocktail[0].strCategory}</Text>
+                            <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Category: </Text>{cocktail[0].strCategory}</Text>
 
-                                {cocktail[0].strIBA ? <Text style={styles.text}>IBA: {cocktail[0].strIBA}</Text>:null}
+                            {cocktail[0].strIBA ? <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>IBA: </Text>{cocktail[0].strIBA}</Text>:null}
 
-                                <Text style={styles.text}>Type: {cocktail[0].strAlcoholic}</Text>
+                            <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Type: </Text>{cocktail[0].strAlcoholic}</Text>
 
 
-                                <Text style={styles.text}>Glass: {cocktail[0].strGlass}</Text>
+                            <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Glass: </Text>{cocktail[0].strGlass}</Text>
 
 
 
                         </View>
                         <View style={styles.txt_container}>
-                            <Text style={styles.text}><Text style={{fontWeight:"bold"}}>Instructions:</Text> {cocktail[0].strInstructions}</Text>
+                            <Text style={styles.text}>
+                                <Text style={{fontWeight:"bold",color:"#e67bec"}} >Instructions:</Text> {cocktail[0].strInstructions}
+                            </Text>
                         </View>
                         <View style={styles.txt_container}>
 
                             {ingredients.map((item,index)=>(
-                                <Text key={index} style={styles.text_ingredients}>{item.ment} {item.name}</Text>
+                                <View key={index} style={styles.ingredient_container}>
+                                    <Text key={index} style={styles.text_ingredients}>{item.ment} {item.name}</Text>
+                                </View>
                             ))}
                         </View>
                     </ScrollView>
@@ -186,16 +190,23 @@ const styles = StyleSheet.create({
         color:'#ebebeb',
         fontFamily: 'OpenSans_600SemiBold',
     },
+    ingredient_container:{
+       width:"95%",
+        margin:20,
+        backgroundColor:"#424040",
+        borderRadius:25,
+        textAlign:"center",
+    },
     text_ingredients:{
-        backgroundColor:'#1c0218',
+
         fontSize:18,
         marginVertical:10,
-        marginHorizontal:5,
-        lineHeight:30,
+        marginLeft:'auto',
+        marginRight:"auto",
         color:'#ebebeb',
         fontFamily: 'OpenSans_600SemiBold',
-        width:'90%',
-        borderRadius: 25,
+
+
     },
     list_container:{
         height:'85%',

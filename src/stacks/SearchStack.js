@@ -1,21 +1,17 @@
 import React from "react";
-import {Text, View} from "react-native";
 import {createStackNavigator} from "@react-navigation/stack";
-import HomeScreen from "../screens/HomeScreen";
 import ShowDrinkScreen from "../screens/ShowDrinkScreen";
-import SearchStack from "./SearchStack";
+import SearchScreen from "../screens/SearchScreen";
 
 const Stack = createStackNavigator()
 
-const HomeStack = () =>{
-
+const SearchStack = () =>{
     return <Stack.Navigator screenOptions={{
         headerShown: false
     }}>
-        <Stack.Screen name={"HomeScreen"} component={HomeScreen}/>
+        <Stack.Screen name={"SearchScreen"} component={SearchScreen}/>
         <Stack.Screen name={"ShowScreen"} component={ShowDrinkScreen}/>
-
     </Stack.Navigator>
 }
 
-export default HomeStack
+export default SearchStack

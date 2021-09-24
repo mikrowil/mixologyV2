@@ -22,6 +22,8 @@ import {
 
 } from '@expo-google-fonts/open-sans';
 import {Poppins_800ExtraBold}from '@expo-google-fonts/poppins'
+import SearchScreen from "./src/screens/SearchScreen";
+import SearchStack from "./src/stacks/SearchStack";
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -74,30 +76,35 @@ const NavContainer = ()=>{
                     <Stack.Screen name={"LoginScreen"} component={LoginScreen}/>
                     :
                     <Stack.Screen options={{gestureEnabled: false}} name={"MainApp"} component={MainApp}/>
-                    }
+                }
             </Stack.Navigator>
         </NavigationContainer>
     )
 }
 
-const MainApp = () =>{
+const MainApp = ()=>{
 
     return(
-        <>
-            <Drawer.Navigator drawerType="back">
-                <Drawer.Screen options={{drawerIcon: ({focused, size}) => (
-                        <AntDesign name={"home"} size={24}/>
-                    ),}} name={"Home"} component={HomeStack}/>
-                <Drawer.Screen options={{drawerIcon: ({focused, size}) => (
-                        <AntDesign name={"meh"} size={24}/>
-                    ),}} name={"Mood"} component={MoodStack}/>
-                <Drawer.Screen  name={"Favorites"} component={FavoriteStack} options={{title:"Favorites",
+
+        <Drawer.Navigator drawerContentOptions={{activeTintColor:'#e67bec',inactiveTintColor:'#ebebeb'}} drawerStyle={{
+            backgroundColor: '#242525',
+        }} drawerType="back">
+            <Drawer.Screen options={{drawerIcon: ({focused, size}) => (
+                    <AntDesign  name={"home"} color={focused?"#e67bec":"#ebebeb"} size={24}/>
+                ),}} name={"Home"} component={HomeStack}/>
+            <Drawer.Screen options={{drawerIcon: ({focused, size}) => (
+                    <AntDesign name={"meh"} color={focused?"#e67bec":"#ebebeb"} size={24}/>
+                ),}} name={"Mood"} component={MoodStack}/>
+            <Drawer.Screen  name={"Favorites"} component={FavoriteStack} options={{title:"Favorites",
                 drawerIcon:({focused,size}) =>(
-                    <AntDesign size={24} name={"hearto"}/>
+                    <AntDesign size={24} color={focused?"#e67bec":"#ebebeb"} name={"hearto"}/>
                 )}}/>
-            </Drawer.Navigator>
-        </>
+            <Drawer.Screen name={"SearchStack"} component={SearchStack}/>
+
+        </Drawer.Navigator>
+
     )
 }
+
 
 export default App

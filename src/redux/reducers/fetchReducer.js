@@ -3,24 +3,26 @@ import {
     FETCH_FAVORITES,
     FETCH_NEW,
     FETCH_POPULAR,
-    FETCH_PUNCHES,
+    FETCH_PUNCHES, FETCH_SEARCH,
     FETCH_SHOTS,
     LOADING_COCKTAILS,
     LOADING_FAVORITES,
     LOADING_NEW,
     LOADING_POPULAR,
-    LOADING_PUNCHES,
+    LOADING_PUNCHES, LOADING_SEARCH,
     LOADING_SHOTS,
     REFRESHING,
 } from "../types";
 
 const initState = {
+    search:[],
     favorites: [],
     popular: [],
     newest: [],
     cocktails: [],
     shots: [],
     punches: [],
+    isLoadingSearch:true,
     isLoadingFavorites: true,
     isLoadingPopular: true,
     isLoadingNewest: true,
@@ -37,6 +39,10 @@ export const fetchReducer = (state = initState, action) => {
             return {...state, favorites: action.payload}
         case LOADING_FAVORITES:
             return {...state, isLoadingFavorites: action.payload}
+        case FETCH_SEARCH:
+            return {...state, search: action.payload}
+        case LOADING_SEARCH:
+            return {...state, isLoadingSearch: action.payload}
         case LOADING_POPULAR:
             return {...state, isLoadingPopular: action.payload}
         case REFRESHING :

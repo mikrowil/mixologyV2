@@ -23,7 +23,8 @@ const ResultList = ({cocktails, isAFave, refreshControl, isLoading, title, horiz
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>{title}</Text>
-
+                    <View style={styles.lineBreak}/>
+                {horizontal?
                     <FlatList style={styles.list_container} keyExtractor={(item, index) => 'key' + index} data={cocktails}
                               renderItem={ItemToRender}
                               onRefresh={() => {
@@ -31,7 +32,18 @@ const ResultList = ({cocktails, isAFave, refreshControl, isLoading, title, horiz
                               }}
                               refreshing={refreshing}
                               horizontal={horizontal}
+                              scrollIndicatorInsets={{right:1}}
                     />
+                :
+                    <FlatList style={styles.list_container} contentContainerStyle={{paddingBottom:20}} keyExtractor={(item, index) => 'key' + index} data={cocktails}
+                              renderItem={ItemToRender}
+                              onRefresh={() => {
+                                  onRefresh()
+                              }}
+                              refreshing={refreshing}
+                              horizontal={horizontal}
+                              scrollIndicatorInsets={{right:1}}
+                    />}
 
             </View>
         )
@@ -48,7 +60,7 @@ const ResultList = ({cocktails, isAFave, refreshControl, isLoading, title, horiz
 const styles = StyleSheet.create({
     container: {
         paddingBottom: 5,
-        marginVertical: '7%',
+        marginBottom: '7%',
         marginHorizontal: '2%',
     },
     text: {
@@ -58,6 +70,13 @@ const styles = StyleSheet.create({
         color:'#ebebeb',
         textShadowRadius:1,
         textShadowColor:'#000000',
+
+    },
+    lineBreak:{
+        borderBottomWidth:2,
+        borderColor:"#e67bec",
+        width:"100%",
+        height:1,
     },
     list_container:{
         paddingVertical:'3%',

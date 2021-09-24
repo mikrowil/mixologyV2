@@ -5,7 +5,7 @@ import HeaderCustom from "../components/HeaderCustom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCocktails, fetchNew, fetchPopular, fetchPunches, fetchShots} from "../redux/actions/fetchActions";
 
-const HomeScreen = (props) => {
+const HomeScreen = (props,{search,route}) => {
 
     //Search state
     const [searchTerm, setSearchTerm] = useState("")

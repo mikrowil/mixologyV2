@@ -4,13 +4,13 @@ import {
     FETCH_FAVORITES,
     FETCH_NEW,
     FETCH_POPULAR,
-    FETCH_PUNCHES,
+    FETCH_PUNCHES, FETCH_SEARCH,
     FETCH_SHOTS,
     LOADING_COCKTAILS,
     LOADING_FAVORITES,
     LOADING_NEW,
     LOADING_POPULAR,
-    LOADING_PUNCHES,
+    LOADING_PUNCHES, LOADING_SEARCH,
     LOADING_SHOTS,
     REFRESHING
 } from "../types";
@@ -93,17 +93,17 @@ export const fetchPunches = () => async dispatch => {
 }
 
 export const searchApi = (searchTerm) => async (dispatch) => {
-    dispatch({type: LOADING_POPULAR, payload: true})
+    dispatch({type: LOADING_SEARCH, payload: true})
     try {
         const response = await cocktailsApi.get(`/search.php?s=${searchTerm}`, [])
 
         //setCocktails(response.data.drinks)
-        dispatch({type: FETCH_POPULAR, payload: response.data.drinks})
+        dispatch({type: FETCH_SEARCH, payload: response.data.drinks})
 
     } catch (e) {
         throw new Error('There was an error with the searchApi')
     }
-    dispatch({type: LOADING_POPULAR, payload: false})
+    dispatch({type: LOADING_SEARCH, payload: false})
 }
 
 export const toggleRefresh = (dispatch, action) => {
