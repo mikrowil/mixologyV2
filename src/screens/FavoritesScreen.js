@@ -20,13 +20,6 @@ const FavoriteScreen = () => {
     }
 
 
-    if (!favorites.length) {
-        return <>
-            <ActivityIndicator size="large"/>
-        </>
-    }
-
-
     return (
         <View style={styles.container}>
             <HeaderCustom/>

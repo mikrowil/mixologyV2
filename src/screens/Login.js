@@ -78,7 +78,7 @@ export default class LoginScreen extends React.Component{
     render() {
         return (
             <View style={styles.container}>
-                <Button title={"Sign in with Google"}
+                <Button color={"#e67bec"} title={"Sign in with Google"}
                         onPress={() => this.signInWithGoogleAsync()}/>
             </View>
         );
@@ -89,8 +89,11 @@ export default class LoginScreen extends React.Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#242525',
         alignItems: 'center',
         justifyContent: 'center',
     },
+    btn_style:{
+
+    }
 });

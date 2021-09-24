@@ -16,7 +16,7 @@ import {
 
 const initState = {
     search:[],
-    favorites: [],
+    favorites: -1,
     popular: [],
     newest: [],
     cocktails: [],

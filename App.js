@@ -24,6 +24,7 @@ import {
 import {Poppins_800ExtraBold}from '@expo-google-fonts/poppins'
 import SearchScreen from "./src/screens/SearchScreen";
 import SearchStack from "./src/stacks/SearchStack";
+import {ActivityIndicator, Text, View} from "react-native";
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -62,17 +63,19 @@ const NavContainer = ()=>{
         }
     },[loggedIn])
 
-    if(isLoading || !fontsLoaded){
-        return <>
-            <StatusBar style={"auto"}/>
-        </>
+    if((loggedIn && isLoading) || !fontsLoaded && loggedIn){
+        return <View style={{justifyContent:'center',alignItems:'center',flex:1, backgroundColor:'#242525'}}>
+            <ActivityIndicator size={'large'}/>
+        </View>
     }
+
+
     return(
         <NavigationContainer ref={navigationRef}>
             <Stack.Navigator screenOptions={{
                 headerShown: false
             }}>
-                {!loggedIn || isLoading?
+                {!loggedIn?
                     <Stack.Screen name={"LoginScreen"} component={LoginScreen}/>
                     :
                     <Stack.Screen options={{gestureEnabled: false}} name={"MainApp"} component={MainApp}/>

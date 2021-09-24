@@ -26,7 +26,10 @@ export const fetchFavorites = () => async dispatch => {
         dispatch({type: FETCH_FAVORITES, payload: res})
 
     } catch (err) {
+        const response = await firestore.collection("users").doc(auth.currentUser.uid).set({favorites:[]})
+        const res = []
 
+        dispatch({type: FETCH_FAVORITES, payload: res})
     }
     dispatch({type: LOADING_FAVORITES, payload: false})
 }
