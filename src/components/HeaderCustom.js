@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Feather} from '@expo/vector-icons'
 import {toggleDrawer,push} from '../configs/RootNav'
-import {searchApi} from "../redux/actions/fetchActions";
+import {searchApi,setSearchTerm} from "../redux/actions/fetchActions";
 import SearchBar from "./SearchBar";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 
 const HeaderCustom = ({withSearch=false}) => {
-    const [searchTerm, setSearchTerm] = useState("")
+    const searchTerm = useSelector(state => state.fetch.searchTerm)
     const dispatch = useDispatch()
 
     if(withSearch){
@@ -21,8 +21,9 @@ const HeaderCustom = ({withSearch=false}) => {
             <View style={{width: "90%", marginBottom: 10,}}>
                 <SearchBar
                     term={searchTerm}
-                    onTermChange={setSearchTerm}
+
                     onTermSubmit={() => {
+
                         dispatch(searchApi(searchTerm))
 
                     }
@@ -37,9 +38,9 @@ const HeaderCustom = ({withSearch=false}) => {
         <TouchableOpacity onPress={() => {
             toggleDrawer()
         }}>
-            <Feather style={styles.icon_menu} color={"#ebebeb"} size={24} name={"menu"}/>
+            <Feather style={[styles.icon_menu,{marginBottom:10}]} color={"#ebebeb"} size={24} name={"menu"}/>
         </TouchableOpacity>
-        <View style={{width: "90%", marginBottom: 10,}}>
+        <View style={{width: "90%"}}>
 
         </View>
 
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingTop: '15%',
 
-        backgroundColor: "#242525",
+        backgroundColor: "#323233",
 
     },
 

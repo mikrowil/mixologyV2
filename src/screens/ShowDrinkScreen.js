@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     },
     header:{
         paddingTop:'10%',
-        backgroundColor: '#242525',
+        backgroundColor: '#323233',
         justifyContent:'center',
         paddingHorizontal:15,
         borderBottomWidth:2,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
 
     container:{
         height:'100%',
-        backgroundColor: "#242525",
+        backgroundColor: "#323233",
         width:'100%',
 
     },

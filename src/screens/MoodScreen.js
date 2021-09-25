@@ -66,7 +66,7 @@ const MoodScreen = () => {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#ffffff',
+        backgroundColor:'#323233',
 
     },
 

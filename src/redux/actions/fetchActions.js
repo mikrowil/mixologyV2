@@ -12,7 +12,8 @@ import {
     LOADING_POPULAR,
     LOADING_PUNCHES, LOADING_SEARCH,
     LOADING_SHOTS,
-    REFRESHING
+    REFRESHING,
+    SEARCH_TERM
 } from "../types";
 import cocktailsApi from "../../api/cocktailApi";
 
@@ -102,11 +103,16 @@ export const searchApi = (searchTerm) => async (dispatch) => {
 
         //setCocktails(response.data.drinks)
         dispatch({type: FETCH_SEARCH, payload: response.data.drinks})
+        dispatch({type:SEARCH_TERM, payload:searchTerm})
 
     } catch (e) {
         throw new Error('There was an error with the searchApi')
     }
     dispatch({type: LOADING_SEARCH, payload: false})
+}
+
+export const setSearchTerm = (term) => dispatch =>{
+    dispatch({type:SEARCH_TERM, payload:term})
 }
 
 export const toggleRefresh = (dispatch, action) => {

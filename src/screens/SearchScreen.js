@@ -1,14 +1,15 @@
 import React, {useState} from "react";
-import {View, Text, StyleSheet} from "react-native";
+import {View,StyleSheet} from "react-native";
 import ResultList from "../components/ResultList";
 import {useDispatch, useSelector} from "react-redux";
 import HeaderCustom from "../components/HeaderCustom";
-import {fetchFavorites, searchApi} from "../redux/actions/fetchActions";
+import {searchApi} from "../redux/actions/fetchActions";
 
 const SearchScreen = ()=>{
-    const [searchTerm, setSearchTerm] = useState("")
+    const searchTerm = useSelector(state => state.fetch.searchTerm)
     const dispatch = useDispatch()
     const search = useSelector((state) => state.fetch.search)
+    const searchIsLoading = useSelector(state => state.fetch.isLoadingSearch)
     const favorites = useSelector((state) => state.fetch.favorites)
 
     const isAFave = (id) => {
@@ -22,7 +23,8 @@ const SearchScreen = ()=>{
         return found
     }
 
-    const refreshControl = async () => {
+    const refreshControl = () => {
+
         dispatch(searchApi(searchTerm))
     }
 
@@ -31,6 +33,7 @@ const SearchScreen = ()=>{
 
         <View style={styles.list_container}>
             <ResultList
+                isLoading={searchIsLoading}
                 title={"Search Results"}
                 refreshControl={refreshControl}
                 cocktails={search}
@@ -42,7 +45,7 @@ const SearchScreen = ()=>{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#242525",
+        backgroundColor: "#323233",
 
     },
 

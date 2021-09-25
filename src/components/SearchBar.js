@@ -1,17 +1,19 @@
 import React from 'react'
 import {View, Text, StyleSheet,TextInput} from 'react-native'
 import {Feather} from '@expo/vector-icons'
+import {useDispatch} from "react-redux";
+import {setSearchTerm} from "../redux/actions/fetchActions";
 
 
 const SearchBar = ({term,onTermChange,onTermSubmit}) =>{
-
+    const dispatch = useDispatch()
 
     return(
         <View style={styles.background}>
             <Feather style={styles.icon} size={30} name="search"/>
             <TextInput autoCorrect ={false}
                 value={term}
-                       onChangeText={newTerm =>onTermChange(newTerm)}
+                       onChangeText={(newTerm)=>{dispatch(setSearchTerm(newTerm))}}
                        placeholder={"Search"}
                        style={styles.search_text}
                         autoCapitalize={"none"}

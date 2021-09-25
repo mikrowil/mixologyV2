@@ -11,18 +11,19 @@ import {
     LOADING_POPULAR,
     LOADING_PUNCHES, LOADING_SEARCH,
     LOADING_SHOTS,
-    REFRESHING,
+    REFRESHING, SEARCH_TERM,
 } from "../types";
 
 const initState = {
     search:[],
+    searchTerm:"",
     favorites: -1,
     popular: [],
     newest: [],
     cocktails: [],
     shots: [],
     punches: [],
-    isLoadingSearch:true,
+    isLoadingSearch:false,
     isLoadingFavorites: true,
     isLoadingPopular: true,
     isLoadingNewest: true,
@@ -65,6 +66,8 @@ export const fetchReducer = (state = initState, action) => {
             return {...state, punches: action.payload}
         case LOADING_PUNCHES:
             return {...state, isLoadingPunches: action.payload}
+        case SEARCH_TERM:
+            return {...state, searchTerm: action.payload}
         default:
             return state
     }

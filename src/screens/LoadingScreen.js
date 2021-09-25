@@ -6,10 +6,38 @@ import { useNavigation } from '@react-navigation/native';
 import {auth, firestore} from '../configs/firebaseSetup'
 import {Context} from "../context/UserContext";
 import {useDispatch} from "react-redux";
-import {fetchFavorites} from "../redux/actions/authActions";
 
-const LoadingScreen=(props)=>{
+import {CHECK_AUTH} from "../redux/types";
+import {fetchFavorites} from "../redux/actions/fetchActions";
 
+const LoadingScreen=({navigation})=>{
+
+    const dispatch = useDispatch()
+
+
+    const checkIfLoggedIn = () => {
+        auth.onAuthStateChanged((user) =>{
+            if(user){
+                loadData()
+
+            }else {
+                navigation.navigate('LoginScreen')
+            }
+        })
+    }
+
+    const loadData = async () =>{
+
+        await dispatch(fetchFavorites())
+
+
+
+        navigation.navigate('MainApp')
+    }
+
+    useEffect(()=>{
+        checkIfLoggedIn()
+    })
 
     return (
             <View style={styles.container}>
@@ -23,7 +51,7 @@ const LoadingScreen=(props)=>{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#323233',
         alignItems: 'center',
         justifyContent: 'center',
     },

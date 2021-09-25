@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react'
-import {FlatList, StyleSheet, Text, View} from 'react-native'
+import {ActivityIndicator, FlatList, StyleSheet, Text, View} from 'react-native'
 import DrinkCard from "./DrinkCard";
 import {StatusBar} from "expo-status-bar";
 import {useSelector} from "react-redux";
@@ -35,7 +35,7 @@ const ResultList = ({cocktails, isAFave, refreshControl, isLoading, title, horiz
                               scrollIndicatorInsets={{right:1}}
                     />
                 :
-                    <FlatList style={styles.list_container} contentContainerStyle={{paddingBottom:20}} keyExtractor={(item, index) => 'key' + index} data={cocktails}
+                    <FlatList style={styles.list_container} contentContainerStyle={{paddingBottom:55}} keyExtractor={(item, index) => 'key' + index} data={cocktails}
                               renderItem={ItemToRender}
                               onRefresh={() => {
                                   onRefresh()
@@ -49,9 +49,9 @@ const ResultList = ({cocktails, isAFave, refreshControl, isLoading, title, horiz
         )
     } else {
         return (
-            <>
-                <StatusBar style={"auto"}/>
-            </>
+            <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
+                <ActivityIndicator size={"large"} />
+            </View>
         )
     }
 

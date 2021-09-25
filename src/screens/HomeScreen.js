@@ -117,7 +117,7 @@ const HomeScreen = (props,{search,route}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#242525",
+        backgroundColor: "#323233",
 
     },
 

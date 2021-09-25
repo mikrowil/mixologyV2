@@ -58,7 +58,7 @@ export default class LoginScreen extends React.Component{
     signInWithGoogleAsync= async ()=> {
         try {
             const result = await Google.logInAsync({
-                androidClientId: "515331412092-o4inr7ttkmppvc24e3uh2il0kcgbi4r3.apps.googleusercontent.com",
+                androidClientId: "165595614793-ijttomns4tn5mgqb12cn1208fnk24coc.apps.googleusercontent.com",
                 iosClientId: "165595614793-f9m4u18tmj7r4rcsb12d02dfknrb1nck.apps.googleusercontent.com",
 
                 scopes: ['profile', 'email'],
@@ -89,7 +89,7 @@ export default class LoginScreen extends React.Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#242525',
+        backgroundColor: '#323233',
         alignItems: 'center',
         justifyContent: 'center',
     },
