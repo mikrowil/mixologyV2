@@ -127,33 +127,47 @@ const ShowDrinkScreen = ({route, navigation}) =>{
         <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity style={styles.back_button}
-                                  onPress={()=>{navigation.goBack()}}><AntDesign size={35} name={"arrowleft"}/></TouchableOpacity>
+                                  onPress={()=>{navigation.goBack()}}><AntDesign size={35} color={"#ebebeb"} name={"arrowleft"}/></TouchableOpacity>
             </View>
 
             {!isLoading?
                 <View style={styles.list_container}>
                     <TouchableOpacity disabled={!isAvailable} onPress={() => initToggle()} style={styles.star_container}>
-                        <AntDesign color={"#FFFBFC"} style={styles.star} size={25} name={`${starOn}`}/>
+                        <AntDesign color={"#e67bec"} style={styles.star} size={25} name={`${starOn}`}/>
                     </TouchableOpacity>
                     <ScrollView scrollIndicatorInsets={{right:1}}>
 
+                        <Image source={{uri:cocktail[0].strDrinkThumb}} style={styles.image_back}/>
                         <Image source={{uri:cocktail[0].strDrinkThumb}} style={styles.image}/>
+
 
                         <View style={styles.grid_one}>
 
 
-                                <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Name: </Text> {cocktail[0].strDrink}</Text>
+                            <Text style={styles.title}>{cocktail[0].strDrink}</Text>
 
-
+                            <View style={styles.lineBreak}/>
 
                             <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Category: </Text>{cocktail[0].strCategory}</Text>
 
-                            {cocktail[0].strIBA ? <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>IBA: </Text>{cocktail[0].strIBA}</Text>:null}
+                            <View style={styles.lineBreak}/>
+
+                            {cocktail[0].strIBA ? <View>
+                                <Text style={styles.text}>
+                                    <Text style={{fontWeight:"bold",color:"#e67bec"}}>IBA: </Text>{cocktail[0].strIBA}</Text>
+                                <View style={styles.lineBreak}/>
+                            </View>:null}
+
+
 
                             <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Type: </Text>{cocktail[0].strAlcoholic}</Text>
 
+                            <View style={styles.lineBreak}/>
+
 
                             <Text style={styles.text}><Text style={{fontWeight:"bold",color:"#e67bec"}}>Glass: </Text>{cocktail[0].strGlass}</Text>
+
+                            <View style={styles.lineBreak}/>
 
 
 
@@ -167,7 +181,7 @@ const ShowDrinkScreen = ({route, navigation}) =>{
 
                             {ingredients.map((item,index)=>(
                                 <View key={index} style={styles.ingredient_container}>
-                                    <Text key={index} style={styles.text_ingredients}>{item.ment} {item.name}</Text>
+                                    <Text key={index} style={styles.text_ingredients}><Text style={{color:"#e67bec"}}>{item.ment}</Text> {item.name}</Text>
                                 </View>
                             ))}
                         </View>
@@ -182,6 +196,14 @@ const ShowDrinkScreen = ({route, navigation}) =>{
     )
 }
 const styles = StyleSheet.create({
+    title:{
+        fontSize:32,
+        marginVertical:10,
+        marginHorizontal:5,
+        lineHeight:30,
+        color:'#ebebeb',
+        fontFamily: 'OpenSans_600SemiBold',
+    },
     text:{
         fontSize:18,
         marginVertical:10,
@@ -191,10 +213,11 @@ const styles = StyleSheet.create({
         fontFamily: 'OpenSans_600SemiBold',
     },
     ingredient_container:{
-       width:"95%",
+       width:"90%",
         margin:20,
-        backgroundColor:"#424040",
-        borderRadius:25,
+        backgroundColor:"#323233",
+        borderRadius:10,
+        borderBottomWidth:2,
         textAlign:"center",
     },
     text_ingredients:{
@@ -269,7 +292,7 @@ const styles = StyleSheet.create({
     image:{
         width:150,
         height:150,
-        borderRadius:5,
+        borderRadius:100,
         marginHorizontal:10,
         marginVertical:10,
         resizeMode:"contain",
@@ -277,6 +300,19 @@ const styles = StyleSheet.create({
         borderColor:'black',
         borderWidth:2,
 
+    },
+    image_back:{
+        position:"absolute",
+        width:800,
+        height:100,
+
+        alignSelf:"center",
+    },
+    lineBreak:{
+        borderBottomWidth:2,
+        borderColor:"#e67bec",
+        width:"100%",
+        height:1,
     },
 })
 
