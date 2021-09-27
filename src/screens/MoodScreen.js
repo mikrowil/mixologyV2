@@ -8,6 +8,7 @@ import HeaderCustom from "../components/HeaderCustom";
 
 
 const MoodScreen = () => {
+    const [screenDisabled,setScreenDisabled] = useState(false)
     const [cocktails,setCocktails] = useState([])
     const [color,setColor] = useState("#ffffff")
     const [intervalId, setIntervalId] = useState(0)
@@ -35,6 +36,10 @@ const MoodScreen = () => {
     }
 
     const start = ()=>{
+        if(screenDisabled){
+            return
+        }
+        setScreenDisabled(true)
         setIntervalId(setInterval(() => {
             setColor(randomColor());
         }, 500))
@@ -43,6 +48,7 @@ const MoodScreen = () => {
     const stop = ()=>{
         clearInterval(intervalId)
         searchApi()
+        setScreenDisabled(false)
         setMessage(messages[Math.floor(Math.random() * messages.length)])
     }
     if(message === ""){
@@ -58,7 +64,7 @@ const MoodScreen = () => {
                 )}/>
             </View>}
             <Text style={styles.text_message}>{message}</Text>
-            <Image style={styles.thumbprint} source={require("../../assets/thumbprint.png")}/>
+
         </AnimatedBackgroundColorView>
     </Pressable>
 }
@@ -71,6 +77,7 @@ const styles = StyleSheet.create({
     },
 
     list_container:{
+        marginVertical:10,
         height:"50%"
     },
     empty_list_container:{
@@ -83,13 +90,20 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         marginHorizontal:15,
         marginTop:"30%",
-
+        fontFamily: "OpenSans_800ExtraBold",
+        color:'#ebebeb',
+        textShadowRadius:1,
+        textShadowColor:'#000000',
     },
     text_message:{
         fontSize:24,
         fontWeight:"bold",
         marginHorizontal:15,
-        textAlign:"center"
+        textAlign:"center",
+        fontFamily: "OpenSans_800ExtraBold",
+        color:'#ebebeb',
+        textShadowRadius:1,
+        textShadowColor:'#000000',
     },
     thumbprint:{
         marginTop: "20%",

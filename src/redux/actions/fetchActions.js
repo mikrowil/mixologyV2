@@ -42,8 +42,9 @@ export const fetchPopular = () => async dispatch => {
     try {
         const response = await cocktailsApi.get("/popular.php", [])
         //setCocktails(response.data.drinks)
+        let myArr = response.data.drinks.filter((x)=> x.idDrink !== "178361")
 
-        dispatch({type: FETCH_POPULAR, payload: response.data.drinks})
+        dispatch({type: FETCH_POPULAR, payload: myArr})
 
 
     } catch (e) {
@@ -57,7 +58,8 @@ export const fetchNew = () => async dispatch => {
     dispatch({type: LOADING_NEW, payload: true})
     try {
         const response = await cocktailsApi.get(`/latest.php`, [])
-        dispatch({type: FETCH_NEW, payload: response.data.drinks})
+        let myArr = response.data.drinks.filter((x)=> x.idDrink !== "178361")
+        dispatch({type: FETCH_NEW, payload: myArr})
     } catch (err) {
         throw new Error('Unable to fetch new cocktails')
     }
@@ -68,7 +70,8 @@ export const fetchCocktails = () => async dispatch => {
     dispatch({type: LOADING_COCKTAILS, payload: true})
     try {
         const response = await cocktailsApi.get(`/filter.php?c=Cocktail`, [])
-        dispatch({type: FETCH_COCKTAILS, payload: response.data.drinks})
+        let myArr = response.data.drinks.filter((x)=> x.idDrink !== "178361")
+        dispatch({type: FETCH_COCKTAILS, payload: myArr})
     } catch (err) {
         throw new Error('Unable to fetch type cocktails')
     }
@@ -79,7 +82,8 @@ export const fetchShots = () => async dispatch => {
     dispatch({type: LOADING_SHOTS, payload: true})
     try {
         const response = await cocktailsApi.get(`/filter.php?c=Shot`, [])
-        dispatch({type: FETCH_SHOTS, payload: response.data.drinks})
+        let myArr = response.data.drinks.filter((x)=> x.idDrink !== "178361")
+        dispatch({type: FETCH_SHOTS, payload: myArr})
     } catch (err) {
         throw new Error('Unable to fetch shots')
     }
@@ -89,7 +93,8 @@ export const fetchPunches = () => async dispatch => {
     dispatch({type: LOADING_PUNCHES, payload: true})
     try {
         const response = await cocktailsApi.get(`/filter.php?c=Punch / Party Drink`, [])
-        dispatch({type: FETCH_PUNCHES, payload: response.data.drinks})
+        let myArr = response.data.drinks.filter((x)=> x.idDrink !== "178361")
+        dispatch({type: FETCH_PUNCHES, payload: myArr})
     } catch (err) {
         throw new Error('Unable to fetch new cocktails')
     }
@@ -100,9 +105,9 @@ export const searchApi = (searchTerm) => async (dispatch) => {
     dispatch({type: LOADING_SEARCH, payload: true})
     try {
         const response = await cocktailsApi.get(`/search.php?s=${searchTerm}`, [])
-
+        let myArr = response.data.drinks.filter((x)=> x.idDrink !== "178361")
         //setCocktails(response.data.drinks)
-        dispatch({type: FETCH_SEARCH, payload: response.data.drinks})
+        dispatch({type: FETCH_SEARCH, payload: myArr})
         dispatch({type:SEARCH_TERM, payload:searchTerm})
 
     } catch (e) {

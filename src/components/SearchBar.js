@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
         justifyContent:"space-evenly",
         alignSelf:"center",
         color:'#c0c0c0',
+        fontFamily:"OpenSans_600SemiBold"
     },
     icon:{
         alignSelf:'center',
