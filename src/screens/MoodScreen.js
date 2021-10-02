@@ -10,20 +10,10 @@ import HeaderCustom from "../components/HeaderCustom";
 const MoodScreen = () => {
     const [screenDisabled,setScreenDisabled] = useState(false)
     const [cocktails,setCocktails] = useState([])
-    const [color,setColor] = useState("#ffffff")
+    const [color,setColor] = useState("#323233")
     const [intervalId, setIntervalId] = useState(0)
     const [message, setMessage] = useState("")
 
-    const messages = [
-        "Wish i were you",
-        "Damn, who pissed you off",
-        "I get it bro",
-        "Wow your sick, I love it!",
-        "Stop using my app and get help",
-        "You could definitely use this drink",
-        "Love it",
-        "You saucy goat"
-    ]
 
     const searchApi = async ()=>{
         try{
@@ -42,17 +32,18 @@ const MoodScreen = () => {
         setScreenDisabled(true)
         setIntervalId(setInterval(() => {
             setColor(randomColor());
-        }, 500))
+        }, 800))
     }
 
-    const stop = ()=>{
+    const stop = async ()=>{
         clearInterval(intervalId)
-        searchApi()
+        await searchApi()
         setScreenDisabled(false)
-        setMessage(messages[Math.floor(Math.random() * messages.length)])
+        setColor("#323233")
+        setMessage(" ")
     }
     if(message === ""){
-        setMessage("Hold your thumb on the screen to see what your feeling like")
+        setMessage("Hold your thumb on the screen to sense your mood. Or just tap for a quick random selection")
     }
 
     return <Pressable style={styles.container} onPressIn={()=>{start()}} onPressOut={()=>{stop()}}>

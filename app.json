@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "MixologyV2 is a mobile application that offers over 600 unique cocktails. Browse some popular drinks or save your favourites for later. MixologyV2 is A must have for any party.",
+    "githubUrl": "https://github.com/mikrowil/mixologyV2"
   }
 }

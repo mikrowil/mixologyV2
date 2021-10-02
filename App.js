@@ -72,7 +72,7 @@ const MainApp = ()=>{
 
         <Drawer.Navigator drawerContentOptions={{activeTintColor:'#e67bec',inactiveTintColor:'#ebebeb',itemStyle:{marginVertical:15}}} drawerStyle={{
             backgroundColor: '#242525',
-            paddingTop:50,
+            paddingTop:20,
         }} drawerType="back">
             <Drawer.Screen options={{drawerIcon: ({focused, size}) => (
                     <AntDesign  name={"home"} color={focused?"#e67bec":"#ebebeb"} size={24}/>
