@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {Text, View, Pressable, FlatList, Button, StyleSheet,Image} from "react-native";
-import { AnimatedBackgroundColorView } from 'react-native-animated-background-color-view';
+import React, {useState} from "react";
+import {FlatList, Pressable, StyleSheet, Text, View} from "react-native";
+import {AnimatedBackgroundColorView} from 'react-native-animated-background-color-view';
 import randomColor from 'randomcolor'
 import cocktailsApi from "../api/cocktailApi";
 import DrinkCard from "../components/DrinkCard";
@@ -8,59 +8,54 @@ import HeaderCustom from "../components/HeaderCustom";
 
 
 const MoodScreen = () => {
-    const [screenDisabled,setScreenDisabled] = useState(false)
-    const [cocktails,setCocktails] = useState([])
-    const [color,setColor] = useState("#ffffff")
+    const [screenDisabled, setScreenDisabled] = useState(false)
+    const [cocktails, setCocktails] = useState([])
+    const [color, setColor] = useState("#323233")
     const [intervalId, setIntervalId] = useState(0)
     const [message, setMessage] = useState("")
 
-    const messages = [
-        "Wish i were you",
-        "Damn, who pissed you off",
-        "I get it bro",
-        "Wow your sick, I love it!",
-        "Stop using my app and get help",
-        "You could definitely use this drink",
-        "Love it",
-        "You saucy goat"
-    ]
 
-    const searchApi = async ()=>{
-        try{
-            const response = await cocktailsApi.get('Random.php',[])
+    const searchApi = async () => {
+        try {
+            const response = await cocktailsApi.get('Random.php', [])
             setCocktails(response.data.drinks)
 
-        }catch (e){
+        } catch (e) {
             console.log(e)
         }
     }
 
-    const start = ()=>{
-        if(screenDisabled){
+    const start = () => {
+        if (screenDisabled) {
             return
         }
         setScreenDisabled(true)
         setIntervalId(setInterval(() => {
             setColor(randomColor());
-        }, 500))
+        }, 800))
     }
 
-    const stop = ()=>{
+    const stop = () => {
         clearInterval(intervalId)
         searchApi()
+        setMessage(" ")
+        setColor("#323233")
         setScreenDisabled(false)
-        setMessage(messages[Math.floor(Math.random() * messages.length)])
     }
-    if(message === ""){
-        setMessage("Hold your thumb on the screen to see what your feeling like")
+    if (message === "") {
+        setMessage("Hold your thumb on the screen to see what your feeling like or tap the screen for a random cocktail")
     }
 
-    return <Pressable style={styles.container} onPressIn={()=>{start()}} onPressOut={()=>{stop()}}>
+    return <Pressable style={styles.container} onPressIn={() => {
+        start()
+    }} onPressOut={() => {
+        stop()
+    }}>
         <HeaderCustom/>
-        <AnimatedBackgroundColorView color={color} style={{flex:1}}>
+        <AnimatedBackgroundColorView color={color} style={{flex: 1}}>
             {!cocktails.length ? <View style={styles.empty_list_container}/> : <View style={styles.list_container}>
-                <FlatList keyExtractor={(item,index)=>'key'+index} data={cocktails} renderItem={({item})=>(
-                    <DrinkCard item={item} />
+                <FlatList keyExtractor={(item, index) => 'key' + index} data={cocktails} renderItem={({item}) => (
+                    <DrinkCard item={item}/>
                 )}/>
             </View>}
             <Text style={styles.text_message}>{message}</Text>
@@ -70,47 +65,47 @@ const MoodScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:'#323233',
+    container: {
+        flex: 1,
+        backgroundColor: '#323233',
 
     },
 
-    list_container:{
-        marginVertical:10,
-        height:"50%"
+    list_container: {
+        marginVertical: 10,
+        height: "50%"
     },
-    empty_list_container:{
-        height:"50%",
-        marginVertical:10,
+    empty_list_container: {
+        height: "50%",
+        marginVertical: 10,
     },
-    text_mood:{
+    text_mood: {
         textAlign: "center",
-        fontSize:20,
-        fontWeight:"bold",
-        marginHorizontal:15,
-        marginTop:"30%",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginHorizontal: 15,
+        marginTop: "30%",
         fontFamily: "OpenSans_800ExtraBold",
-        color:'#ebebeb',
-        textShadowRadius:1,
-        textShadowColor:'#000000',
+        color: '#ebebeb',
+        textShadowRadius: 1,
+        textShadowColor: '#000000',
     },
-    text_message:{
-        fontSize:24,
-        fontWeight:"bold",
-        marginHorizontal:15,
-        textAlign:"center",
+    text_message: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginHorizontal: 15,
+        textAlign: "center",
         fontFamily: "OpenSans_800ExtraBold",
-        color:'#ebebeb',
-        textShadowRadius:1,
-        textShadowColor:'#000000',
+        color: '#ebebeb',
+        textShadowRadius: 1,
+        textShadowColor: '#000000',
     },
-    thumbprint:{
+    thumbprint: {
         marginTop: "20%",
-        width:100,
-        height:150,
-        alignSelf:"center",
-        resizeMode:"contain"
+        width: 100,
+        height: 150,
+        alignSelf: "center",
+        resizeMode: "contain"
     }
 })
 

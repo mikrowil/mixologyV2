@@ -1,4 +1,4 @@
-import {CHECK_AUTH, FETCH_FAVORITES, FETCH_POPULAR, LOADING_FAVORITES, LOADING_POPULAR, REFRESHING} from "../types";
+import {CHECK_AUTH} from "../types";
 
 const initState={
     loggedIn:null,

@@ -4,16 +4,16 @@ import {
     FETCH_FAVORITES,
     FETCH_NEW,
     FETCH_POPULAR,
-    FETCH_PUNCHES, FETCH_SEARCH,
+    FETCH_PUNCHES,
     FETCH_SHOTS,
     LOADING_COCKTAILS,
     LOADING_FAVORITES,
     LOADING_NEW,
     LOADING_POPULAR,
-    LOADING_PUNCHES, LOADING_SEARCH,
+    LOADING_PUNCHES,
     LOADING_SHOTS,
     REFRESHING,
-    SEARCH_TERM
+
 } from "../types";
 import cocktailsApi from "../../api/cocktailApi";
 
@@ -101,24 +101,6 @@ export const fetchPunches = () => async dispatch => {
     dispatch({type: LOADING_PUNCHES, payload: false})
 }
 
-export const searchApi = (searchTerm) => async (dispatch) => {
-    dispatch({type: LOADING_SEARCH, payload: true})
-    try {
-        const response = await cocktailsApi.get(`/search.php?s=${searchTerm}`, [])
-        let myArr = response.data.drinks.filter((x)=> x.idDrink !== "178361")
-        //setCocktails(response.data.drinks)
-        dispatch({type: FETCH_SEARCH, payload: myArr})
-        dispatch({type:SEARCH_TERM, payload:searchTerm})
-
-    } catch (e) {
-        throw new Error('There was an error with the searchApi')
-    }
-    dispatch({type: LOADING_SEARCH, payload: false})
-}
-
-export const setSearchTerm = (term) => dispatch =>{
-    dispatch({type:SEARCH_TERM, payload:term})
-}
 
 export const toggleRefresh = (dispatch, action) => {
     dispatch({type: REFRESHING, payload: action})
