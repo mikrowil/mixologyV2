@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {NavigationContainer} from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import HomeStack from "./src/stacks/HomeStack";
@@ -21,7 +20,7 @@ import {
 } from '@expo-google-fonts/open-sans';
 import {Poppins_800ExtraBold}from '@expo-google-fonts/poppins'
 import SearchStack from "./src/stacks/SearchStack";
-import {ActivityIndicator, Text, View} from "react-native";
+import {ActivityIndicator, View} from "react-native";
 import LoadingScreen from "./src/screens/LoadingScreen";
 
 const Drawer = createDrawerNavigator()

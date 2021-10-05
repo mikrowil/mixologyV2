@@ -19,16 +19,7 @@ const HeaderCustom = ({withSearch=false}) => {
                 <Feather style={styles.icon_menu} color={"#ebebeb"} size={24} name={"menu"}/>
             </TouchableOpacity>
             <View style={{width: "90%", marginBottom: 10,}}>
-                <SearchBar
-                    term={searchTerm}
-
-                    onTermSubmit={() => {
-
-                        dispatch(searchApi(searchTerm))
-
-                    }
-                    }
-                />
+                <SearchBar/>
             </View>
 
         </View>
