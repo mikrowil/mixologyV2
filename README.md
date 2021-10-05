@@ -16,5 +16,10 @@ Try out our mood tester. Just place your finger on the screen to allow our on-st
 Just kidding. But if you want a random drink then thats what it does.
 
 
+# Expo link live
+
+follow this link: [MixologyV2](https://expo.io/@mikrowil/projects/MixologyV2) 
+
+
 For more information check out our wiki
 
