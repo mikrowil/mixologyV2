@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {StyleSheet, View} from "react-native";
 import ResultList from "../components/ResultList";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import HeaderCustom from "../components/HeaderCustom";
-
+import {searchApi} from "../redux/actions/searchActions";
 
 const SearchScreen = () => {
     const search = useSelector((state) => state.search.searchResult)
     const searchIsLoading = useSelector(state => state.search.searchLoading)
     const favorites = useSelector((state) => state.fetch.favorites)
+
+    const dispatch = useDispatch()
 
     const isAFave = (id) => {
         let found = false
@@ -28,6 +30,11 @@ const SearchScreen = () => {
     const refreshControl = () => {
 
     }
+
+
+    useEffect(()=>{
+        dispatch(searchApi(""))
+    },[])
 
     return <View style={styles.container}>
         <HeaderCustom withSearch={true}/>
