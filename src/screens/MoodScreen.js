@@ -84,6 +84,10 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     text_mood: {
+        shadowColor:"#000000",
+        shadowOpacity:0.7,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
         textAlign: "center",
         fontSize: 20,
         fontWeight: "bold",
@@ -103,6 +107,10 @@ const styles = StyleSheet.create({
         color: '#ebebeb',
         textShadowRadius: 1,
         textShadowColor: '#000000',
+        shadowColor:"#000000",
+        shadowOpacity:0.7,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
     },
     thumbprint: {
         marginTop: "20%",

@@ -198,13 +198,20 @@ const ShowDrinkScreen = ({route, navigation}) =>{
 const styles = StyleSheet.create({
     title:{
         fontSize:32,
-        marginVertical:10,
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
         marginHorizontal:5,
-        lineHeight:30,
+
         color:'#ebebeb',
         fontFamily: 'OpenSans_600SemiBold',
     },
     text:{
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
         fontSize:18,
         marginVertical:10,
         marginHorizontal:5,
@@ -221,6 +228,10 @@ const styles = StyleSheet.create({
         textAlign:"center",
     },
     text_ingredients:{
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
 
         fontSize:18,
         marginVertical:10,
@@ -228,6 +239,7 @@ const styles = StyleSheet.create({
         marginRight:"auto",
         color:'#ebebeb',
         fontFamily: 'OpenSans_600SemiBold',
+
 
 
     },
@@ -242,6 +254,11 @@ const styles = StyleSheet.create({
         right: 10,
         top: 10,
         zIndex: 1,
+
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:2,
     },
     star: {
         position: "absolute",
@@ -269,7 +286,7 @@ const styles = StyleSheet.create({
 
     },
     grid_one:{
-
+        paddingTop: 10,
         marginHorizontal: 5,
         marginVertical: 10,
         width:"90%",
@@ -309,6 +326,10 @@ const styles = StyleSheet.create({
         alignSelf:"center",
     },
     lineBreak:{
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
         borderBottomWidth:2,
         borderColor:"#e67bec",
         width:"100%",

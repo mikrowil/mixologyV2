@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
 
     icon_menu: {
         marginTop: 20,
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
     },
 })
 

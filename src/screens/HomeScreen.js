@@ -127,6 +127,10 @@ const styles = StyleSheet.create({
         alignContent: "center"
     },
     search_result_txt: {
+        shadowColor:"#000000",
+        shadowOpacity:0.7,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
         marginHorizontal: '20%',
         marginVertical: '1%',
         fontSize: 22,

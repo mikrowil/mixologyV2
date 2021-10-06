@@ -49,7 +49,11 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignSelf: "center",
         color: '#c0c0c0',
-        fontFamily: "OpenSans_600SemiBold"
+        fontFamily: "OpenSans_600SemiBold",
+        shadowColor:"#000000",
+        shadowOpacity:0.2,
+        shadowOffset:{width:1,height:3},
+        shadowRadius:3,
     },
     icon: {
         alignSelf: 'center',

@@ -1,11 +1,8 @@
-import React, {useState} from "react";
-import {Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React from "react";
+import {ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
-import {AntDesign} from "@expo/vector-icons";
-import firebase from "firebase";
-import {auth, firestore} from "../configs/firebaseSetup";
 
-const DrinkCardVerticle = ({item, isFave}) => {
+const DrinkCardVertical = ({item, isFave}) => {
     const navigation = useNavigation()
 
     const id = item.idDrink
@@ -19,9 +16,22 @@ const DrinkCardVerticle = ({item, isFave}) => {
                     isFave,
                     item
                 })
-            }}>
+            }}
+                              style={{
+                                  shadowColor: "#000000",
+                                  shadowOffset: {
+                                      width: 5,
+                                      height: 10
+                                  },
+                                  shadowOpacity: 0.7,
+                                  shadowRadius: 5,
 
-                <ImageBackground imageStyle={{borderRadius:25}} source={{uri: item.strDrinkThumb}} style={[styles.container]}>
+                                  marginHorizontal: 5,
+                              }}
+            >
+
+                <ImageBackground imageStyle={{borderRadius: 25}} source={{uri: item.strDrinkThumb}}
+                                 style={[styles.container]}>
                     <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
                 </ImageBackground>
 
@@ -44,28 +54,28 @@ const styles = StyleSheet.create({
 
     container: {
         marginHorizontal: 5,
-        marginBottom: 20,
+
         width: "90%",
-        height:120,
+        height: 120,
         borderColor: 'black',
         borderRadius: 25,
 
-
+        marginVertical: 10,
         alignSelf: "center",
 
     },
     text_drink: {
         marginHorizontal: 10,
-        marginTop:'auto',
-        marginBottom:10,
-        color:'#ebebeb',
+        marginTop: 'auto',
+        marginBottom: 10,
+        color: '#ebebeb',
         fontFamily: 'Poppins_800ExtraBold',
 
         fontSize: 24,
-        textShadowColor:'#000000',
-        textShadowRadius:5,
+        textShadowColor: '#000000',
+        textShadowRadius: 5,
     },
 
 })
 
-export default DrinkCardVerticle
+export default DrinkCardVertical

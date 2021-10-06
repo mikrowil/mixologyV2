@@ -1,23 +1,39 @@
-import React, {useState} from "react";
-import {ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React from "react";
+import {View, ImageBackground, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useNavigation} from '@react-navigation/native';
 
-const DrinkCard = ({item, addFave, isFave}) => {
+
+const DrinkCard = ({item, isFave}) => {
     const navigation = useNavigation()
 
     const id = item.idDrink
 
-    return (<TouchableOpacity onPress={() => {
-        navigation.navigate("ShowScreen", {
-            id: id,
-            isFave,
-            item
-        })
-    }}>
-        <ImageBackground imageStyle={{borderRadius:25}} source={{uri: item.strDrinkThumb}} style={[styles.container]}>
-                <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
-        </ImageBackground>
-        </TouchableOpacity>
+    return (
+        <View>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate("ShowScreen", {
+                    id: id,
+                    isFave,
+                    item
+                })
+            }}
+                              style={{
+                                  shadowColor: "#000000",
+                                  shadowOffset: {
+                                      width: 5,
+                                      height: 10
+                                  },
+                                  shadowOpacity: 0.7,
+                                  shadowRadius: 5,
+
+                                  marginHorizontal: 5,
+                              }}>
+                <ImageBackground imageStyle={{borderRadius: 25}} source={{uri: item.strDrinkThumb}}
+                                 style={[styles.container]}>
+                    <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
+                </ImageBackground>
+            </TouchableOpacity>
+        </View>
     )
 }
 
@@ -51,7 +67,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
 
         width: 200,
-        height:250,
+        height: 250,
         borderColor: 'black',
         borderRadius: 25,
         backgroundColor: "#FFFBFC",
@@ -61,14 +77,14 @@ const styles = StyleSheet.create({
     },
     text_drink: {
         marginHorizontal: 10,
-        marginTop:'auto',
-        marginBottom:10,
-        color:'#ebebeb',
+        marginTop: 'auto',
+        marginBottom: 10,
+        color: '#ebebeb',
         fontFamily: 'Poppins_800ExtraBold',
 
         fontSize: 24,
-        textShadowColor:'#000000',
-        textShadowRadius:5,
+        textShadowColor: '#000000',
+        textShadowRadius: 5,
     },
 
 })
