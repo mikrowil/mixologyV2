@@ -8,36 +8,31 @@ import {navigationRef} from "./src/configs/RootNav";
 import FavoriteStack from "./src/stacks/FavoriteStack";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoginScreen from "./src/screens/Login";
-import {AntDesign, Feather} from '@expo/vector-icons';
+import {AntDesign, Feather, MaterialCommunityIcons} from '@expo/vector-icons';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store'
-import {
-    useFonts,
-    OpenSans_300Light,
-    OpenSans_800ExtraBold,
-    OpenSans_600SemiBold
-
-} from '@expo-google-fonts/open-sans';
-import {Poppins_800ExtraBold}from '@expo-google-fonts/poppins'
+import {OpenSans_300Light, OpenSans_600SemiBold, OpenSans_800ExtraBold, useFonts} from '@expo-google-fonts/open-sans';
+import {Poppins_800ExtraBold} from '@expo-google-fonts/poppins'
 import SearchStack from "./src/stacks/SearchStack";
 import {ActivityIndicator, View} from "react-native";
 import LoadingScreen from "./src/screens/LoadingScreen";
+import AccountScreen from "./src/screens/AccountScreen";
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
 
 const App = () => {
 
-  return (
-      <Provider store={store}>
-        <NavContainer/>
-      </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <NavContainer/>
+        </Provider>
+    );
 }
 
-const NavContainer = ()=>{
+const NavContainer = () => {
 
-    const[fontsLoaded] = useFonts({
+    const [fontsLoaded] = useFonts({
         OpenSans_300Light,
         OpenSans_800ExtraBold,
         Poppins_800ExtraBold,
@@ -45,48 +40,69 @@ const NavContainer = ()=>{
     })
 
 
-    if(!fontsLoaded){
-        return <View style={{justifyContent:'center',alignItems:'center',flex:1, backgroundColor:'#242525'}}>
+    if (!fontsLoaded) {
+        return <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#242525'}}>
             <ActivityIndicator size={'large'}/>
         </View>
     }
 
 
-    return(
+    return (
         <NavigationContainer ref={navigationRef}>
             <Stack.Navigator screenOptions={{
                 headerShown: false
             }}>
-                    <Stack.Screen name={'LoadingScreen'} component={LoadingScreen}/>
-                    <Stack.Screen name={"LoginScreen"} component={LoginScreen}/>
-                    <Stack.Screen options={{gestureEnabled: false}} name={"MainApp"} component={MainApp}/>
+
+                <Stack.Screen name={'LoadingScreen'} component={LoadingScreen}/>
+                <Stack.Screen name={"LoginScreen"} component={LoginScreen}/>
+                <Stack.Screen options={{gestureEnabled: false}} name={"MainApp"} component={MainApp}/>
+
+
             </Stack.Navigator>
         </NavigationContainer>
     )
 }
 
-const MainApp = ()=>{
+const MainApp = () => {
 
-    return(
+    return (
 
-        <Drawer.Navigator drawerContentOptions={{activeTintColor:'#e67bec',inactiveTintColor:'#ebebeb',itemStyle:{marginVertical:15}}} drawerStyle={{
+        <Drawer.Navigator drawerContentOptions={{
+            activeTintColor: '#e67bec',
+            inactiveTintColor: '#ebebeb',
+            itemStyle: {marginVertical: 15}
+        }} drawerStyle={{
             backgroundColor: '#242525',
-            paddingTop:20,
+            paddingTop: 20,
         }} drawerType="back">
-            <Drawer.Screen options={{drawerIcon: ({focused, size}) => (
-                    <AntDesign  name={"home"} color={focused?"#e67bec":"#ebebeb"} size={24}/>
-                ),}} name={"Home"} component={HomeStack}/>
-            <Drawer.Screen options={{drawerIcon: ({focused, size}) => (
-                    <AntDesign name={"meh"} color={focused?"#e67bec":"#ebebeb"} size={24}/>
-                ),}} name={"Mood"} component={MoodStack}/>
-            <Drawer.Screen  name={"Favorites"} component={FavoriteStack} options={{title:"Favorites",
-                drawerIcon:({focused,size}) =>(
-                    <AntDesign size={24} color={focused?"#e67bec":"#ebebeb"} name={"hearto"}/>
-                )}}/>
-            <Drawer.Screen name={"SearchStack"} component={SearchStack} options={{title:"Search",
-                drawerIcon:({focused,size}) =>(
-                    <Feather color={focused?"#e67bec":"#ebebeb"} size={24} name="search"/>
-                )}}/>
+            <Drawer.Screen options={{
+                drawerIcon: ({focused, size}) => (
+                    <AntDesign name={"home"} color={focused ? "#e67bec" : "#ebebeb"} size={24}/>
+                ),
+            }} name={"Home"} component={HomeStack}/>
+            <Drawer.Screen options={{
+                title: "Account",
+                drawerIcon: ({focused, size}) => (
+                    <AntDesign name="user" size={24} color={focused ? "#e67bec" : "#ebebeb"}/>
+                ),
+            }} name={"AccountScreen"} component={AccountScreen}/>
+            <Drawer.Screen options={{
+                drawerIcon: ({focused, size}) => (
+                    <AntDesign name={"meh"} color={focused ? "#e67bec" : "#ebebeb"} size={24}/>
+                ),
+            }} name={"Mood"} component={MoodStack}/>
+            <Drawer.Screen name={"Favorites"} component={FavoriteStack} options={{
+                title: "Favorites",
+                drawerIcon: ({focused, size}) => (
+                    <AntDesign size={24} color={focused ? "#e67bec" : "#ebebeb"} name={"hearto"}/>
+                )
+            }}/>
+            <Drawer.Screen name={"SearchStack"} component={SearchStack} options={{
+                title: "Search",
+                drawerIcon: ({focused, size}) => (
+                    <Feather color={focused ? "#e67bec" : "#ebebeb"} size={24} name="search"/>
+                )
+            }}/>
 
         </Drawer.Navigator>
 
