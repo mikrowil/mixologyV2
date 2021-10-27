@@ -1,5 +1,5 @@
-import React, {useEffect, useState, memo} from "react";
-import {Text, View, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity, ActivityIndicator} from 'react-native'
+import React, {useEffect, useState, memo, useRef} from "react";
+import {Text, View, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity, ActivityIndicator, Animated} from 'react-native'
 import cocktailsApi from "../api/cocktailApi";
 import {AntDesign} from '@expo/vector-icons'
 import {auth, firestore} from "../configs/firebaseSetup";
@@ -22,6 +22,20 @@ const ShowDrinkScreen = ({route, navigation}) =>{
     const [starOn, toggleStar] = useState(route.params.isFave ? "star" : "staro")
     const [isFavorite, setIsFavorite] = useState(route.params.isFave)
     const [isAvailable, setIsAvailable] = useState(true)
+
+    let scrollY = useRef(new Animated.Value(0)).current
+
+    let opacity = scrollY.interpolate({
+        inputRange:[-1,0,75],
+        outputRange:[1,1,0],
+
+    })
+
+    let yScale = scrollY.interpolate({
+        inputRange:[-100,-1,0,1],
+        outputRange:[1.4,1,1,1],
+        extrapolate:'clamp'
+    })
 
     //State to hold the data for the drink
     const [cocktail,setCocktails] = useState([])
@@ -119,8 +133,8 @@ const ShowDrinkScreen = ({route, navigation}) =>{
     //Calls the api to get drink data to show
     useEffect(()=>{
         searchApi()
-    },[])
 
+    },[])
 
 
     return(
@@ -128,6 +142,7 @@ const ShowDrinkScreen = ({route, navigation}) =>{
             <View style={styles.header}>
                 <TouchableOpacity style={styles.back_button}
                                   onPress={()=>{navigation.goBack()}}><AntDesign size={35} color={"#ebebeb"} name={"arrowleft"}/></TouchableOpacity>
+
             </View>
 
             {!isLoading?
@@ -135,10 +150,17 @@ const ShowDrinkScreen = ({route, navigation}) =>{
                     <TouchableOpacity disabled={!isAvailable} onPress={() => initToggle()} style={styles.star_container}>
                         <AntDesign color={"#e67bec"} style={styles.star} size={25} name={`${starOn}`}/>
                     </TouchableOpacity>
-                    <ScrollView scrollIndicatorInsets={{right:1}}>
+                    <Animated.Image source={{uri:cocktail[0].strDrinkThumb}} style={[styles.image_back,
+                        {opacity:opacity},
+                        {transform:[{scale:yScale}]}]}/>
+                    <Animated.ScrollView
+                        scrollIndicatorInsets={{right:1}}
+                        onScroll={Animated.event([{nativeEvent:{contentOffset:{y:scrollY}}}], {useNativeDriver:true})}
+                        scrollEventThrottle={20}
+                    >
 
-                        <Image source={{uri:cocktail[0].strDrinkThumb}} style={styles.image_back}/>
-                        <Image source={{uri:cocktail[0].strDrinkThumb}} style={styles.image}/>
+
+                        <Animated.Image source={{uri:cocktail[0].strDrinkThumb}} style={[styles.image, {opacity:opacity}]}/>
 
 
                         <View style={styles.grid_one}>
@@ -185,7 +207,7 @@ const ShowDrinkScreen = ({route, navigation}) =>{
                                 </View>
                             ))}
                         </View>
-                    </ScrollView>
+                    </Animated.ScrollView>
                 </View>
                 :
                 <ActivityIndicator
@@ -273,7 +295,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         paddingHorizontal:15,
         borderBottomWidth:2,
-
+        zIndex: 5,
     },
     back_button:{
         marginVertical:10,
@@ -319,11 +341,12 @@ const styles = StyleSheet.create({
 
     },
     image_back:{
+
         position:"absolute",
         width:800,
         height:100,
 
-        alignSelf:"center",
+
     },
     lineBreak:{
         shadowColor:"#000000",
