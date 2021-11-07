@@ -1,7 +1,6 @@
 import React from 'react'
-import {ActivityIndicator, StyleSheet, View} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import ResultList from "../components/ResultList";
-import HeaderCustom from "../components/HeaderCustom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchFavorites} from "../redux/actions/fetchActions";
 
@@ -22,7 +21,7 @@ const FavoriteScreen = () => {
 
     return (
         <View style={styles.container}>
-            <HeaderCustom/>
+
             <View style={styles.list_container}>
                 <ResultList
                     horizontal={false}
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     },
 
     list_container: {
-        height:"87%",
+        flex:1,
         alignContent: "center"
     }
 })

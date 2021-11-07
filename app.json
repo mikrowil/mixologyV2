@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "MixologyV2",
-    "slug": "MixologyV2",
+    "name": "Mixology",
+    "privacy": "public",
+    "slug": "Mixology",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

@@ -9,7 +9,7 @@ const DrinkCardVertical = ({item, isFave}) => {
 
 
     return (
-        <View style={styles.container}>
+        <View>
             <TouchableOpacity onPress={() => {
                 navigation.navigate("ShowScreen", {
                     id: id,
@@ -25,12 +25,13 @@ const DrinkCardVertical = ({item, isFave}) => {
                                   },
                                   shadowOpacity: 0.7,
                                   shadowRadius: 5,
-
+                                  elevation: 5,
+                                  borderRadius:20,
                                   marginHorizontal: 5,
                               }}
             >
 
-                <ImageBackground imageStyle={{borderRadius: 25}} source={{uri: item.strDrinkThumb}}
+                <ImageBackground imageStyle={{borderRadius: 10}} source={{uri: item.strDrinkThumb}}
                                  style={[styles.container]}>
                     <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
                 </ImageBackground>
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
         width: "90%",
         height: 120,
         borderColor: 'black',
-        borderRadius: 25,
+
 
         marginVertical: 10,
         alignSelf: "center",
@@ -74,6 +75,8 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textShadowColor: '#000000',
         textShadowRadius: 5,
+        elevation: 1,
+
     },
 
 })

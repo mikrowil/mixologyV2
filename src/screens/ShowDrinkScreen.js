@@ -1,5 +1,5 @@
-import React, {useEffect, useState, memo, useRef} from "react";
-import {Text, View, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity, ActivityIndicator, Animated} from 'react-native'
+import React, {useEffect, useState, useRef} from "react";
+import {Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, Animated} from 'react-native'
 import cocktailsApi from "../api/cocktailApi";
 import {AntDesign} from '@expo/vector-icons'
 import {auth, firestore} from "../configs/firebaseSetup";
@@ -139,28 +139,28 @@ const ShowDrinkScreen = ({route, navigation}) =>{
 
     return(
         <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.back_button}
-                                  onPress={()=>{navigation.goBack()}}><AntDesign size={35} color={"#ebebeb"} name={"arrowleft"}/></TouchableOpacity>
-
-            </View>
 
             {!isLoading?
                 <View style={styles.list_container}>
                     <TouchableOpacity disabled={!isAvailable} onPress={() => initToggle()} style={styles.star_container}>
                         <AntDesign color={"#e67bec"} style={styles.star} size={25} name={`${starOn}`}/>
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.back_container} onPress={()=>{navigation.goBack()}}>
+                        <AntDesign style={styles.back} size={30} color={"#e67bec"} name={"arrowleft"}/>
+                    </TouchableOpacity>
                     <Animated.Image source={{uri:cocktail[0].strDrinkThumb}} style={[styles.image_back,
                         {opacity:opacity},
                         {transform:[{scale:yScale}]}]}/>
-                    <Animated.ScrollView
+                    <Animated.ScrollView contentContainerStyle={{paddingBottom:'4%'}}
                         scrollIndicatorInsets={{right:1}}
                         onScroll={Animated.event([{nativeEvent:{contentOffset:{y:scrollY}}}], {useNativeDriver:true})}
                         scrollEventThrottle={20}
                     >
 
 
-                        <Animated.Image source={{uri:cocktail[0].strDrinkThumb}} style={[styles.image, {opacity:opacity}]}/>
+                        <View style={{borderRadius:100, overflow:"hidden"}}>
+                            <Animated.Image source={{uri:cocktail[0].strDrinkThumb}} style={[styles.image, {opacity:opacity}]}/>
+                        </View>
 
 
                         <View style={styles.grid_one}>
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
 
     },
     list_container:{
-        height:'85%',
+        flex:1,
 
     },
     star_container: {
@@ -289,16 +289,26 @@ const styles = StyleSheet.create({
         textShadowColor: '#000000',
         textShadowRadius: 1,
     },
-    header:{
-        paddingTop:'10%',
-        backgroundColor: '#323233',
-        justifyContent:'center',
-        paddingHorizontal:15,
-        borderBottomWidth:2,
-        zIndex: 5,
+
+    back_container:{
+        width: 50,
+        height: 50,
+        position: "absolute",
+        left: 10,
+        top: 10,
+        zIndex: 1,
+
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:2,
     },
-    back_button:{
-        marginVertical:10,
+    back:{
+        position: "absolute",
+        left: 10,
+        top: 10,
+        textShadowColor: '#000000',
+        textShadowRadius: 1,
     },
 
     container:{
@@ -332,6 +342,7 @@ const styles = StyleSheet.create({
         width:150,
         height:150,
         borderRadius:100,
+
         marginHorizontal:10,
         marginVertical:10,
         resizeMode:"contain",

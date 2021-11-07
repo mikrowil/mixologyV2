@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.9,
         shadowOffset: {width: 2, height: 3},
         shadowRadius: 3,
+        elevation: 5,
 
     },
     lineBreak: {
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.7,
         shadowOffset: {width: 2, height: 3},
         shadowRadius: 3,
+        elevation: 5,
     },
     list_container: {
         paddingVertical: '3%',

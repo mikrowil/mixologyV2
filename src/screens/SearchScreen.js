@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import {StyleSheet, View} from "react-native";
 import ResultList from "../components/ResultList";
 import {useDispatch, useSelector} from "react-redux";
-import HeaderCustom from "../components/HeaderCustom";
 import {searchApi} from "../redux/actions/searchActions";
 
 const SearchScreen = () => {
@@ -37,7 +36,6 @@ const SearchScreen = () => {
     },[])
 
     return <View style={styles.container}>
-        <HeaderCustom withSearch={true}/>
 
         <View style={styles.list_container}>
             <ResultList
@@ -58,7 +56,7 @@ const styles = StyleSheet.create({
     },
 
     list_container: {
-        height: "87%",
+        flex: 1,
 
 
     }

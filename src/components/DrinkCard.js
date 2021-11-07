@@ -1,5 +1,5 @@
 import React from "react";
-import {View, ImageBackground, StyleSheet, Text, TouchableOpacity} from "react-native";
+import {ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
 
 
@@ -18,6 +18,7 @@ const DrinkCard = ({item, isFave}) => {
                 })
             }}
                               style={{
+
                                   shadowColor: "#000000",
                                   shadowOffset: {
                                       width: 5,
@@ -25,6 +26,8 @@ const DrinkCard = ({item, isFave}) => {
                                   },
                                   shadowOpacity: 0.7,
                                   shadowRadius: 5,
+                                  elevation: 5,
+                                  borderRadius:20,
 
                                   marginHorizontal: 5,
                               }}>
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
         top: 10,
         textShadowColor: '#000000',
         textShadowRadius: 1,
+        elevation: 5,
     },
     container: {
         marginHorizontal: 5,
@@ -85,6 +89,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textShadowColor: '#000000',
         textShadowRadius: 5,
+        elevation: 5,
     },
 
 })

@@ -17,6 +17,7 @@ import SearchStack from "./src/stacks/SearchStack";
 import {ActivityIndicator, View} from "react-native";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import AccountScreen from "./src/screens/AccountScreen";
+import HeaderCustom from "./src/components/HeaderCustom";
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -74,7 +75,13 @@ const MainApp = () => {
         }} drawerStyle={{
             backgroundColor: '#242525',
             paddingTop: 20,
-        }} drawerType="back">
+        }} drawerType="back"
+            screenOptions={{headerShown:true,
+                header:()=>(
+                    <HeaderCustom/>
+                )
+            }}
+        >
             <Drawer.Screen options={{
                 drawerIcon: ({focused, size}) => (
                     <AntDesign name={"home"} color={focused ? "#e67bec" : "#ebebeb"} size={24}/>
@@ -99,6 +106,9 @@ const MainApp = () => {
             }}/>
             <Drawer.Screen name={"SearchStack"} component={SearchStack} options={{
                 title: "Search",
+                header:()=>(
+                    <HeaderCustom withSearch={true}/>
+                ),
                 drawerIcon: ({focused, size}) => (
                     <Feather color={focused ? "#e67bec" : "#ebebeb"} size={24} name="search"/>
                 )

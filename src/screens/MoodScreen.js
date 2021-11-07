@@ -4,7 +4,6 @@ import {AnimatedBackgroundColorView} from 'react-native-animated-background-colo
 import randomColor from 'randomcolor'
 import cocktailsApi from "../api/cocktailApi";
 import DrinkCard from "../components/DrinkCard";
-import HeaderCustom from "../components/HeaderCustom";
 
 
 const MoodScreen = () => {
@@ -55,7 +54,7 @@ const MoodScreen = () => {
     }} onPressOut={() => {
         stop()
     }}>
-        <HeaderCustom/>
+
         <AnimatedBackgroundColorView color={color} style={{flex: 1}}>
             {!cocktails.length ? <View style={styles.empty_list_container}/> : <View style={styles.list_container}>
                 <FlatList keyExtractor={(item, index) => 'key' + index} data={cocktails} renderItem={({item}) => (

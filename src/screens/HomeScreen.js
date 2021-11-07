@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View,} from 'react-native';
 import ResultList from "../components/ResultList";
-import HeaderCustom from "../components/HeaderCustom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCocktails, fetchNew, fetchPopular, fetchPunches, fetchShots} from "../redux/actions/fetchActions";
 
@@ -66,7 +65,7 @@ const HomeScreen = (props,{search,route}) => {
 
 
     return <View style={styles.container}>
-        <HeaderCustom/>
+
         {!isLoading && !isLoadingNew && !isLoadingCocktails && !isLoadingShots && !isLoadingPunches?
             <ScrollView refreshControl={<RefreshControl refreshing={refreshingMain} onRefresh={()=>onRefresh()} />} style={styles.list_container}>
 
