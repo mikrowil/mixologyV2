@@ -18,7 +18,7 @@ Just kidding. But if you want a random drink then thats what it does.
 
 # Expo link live
 
-follow this link: [MixologyV2](https://expo.io/@mikrowil/projects/MixologyV2) 
+follow this link: [MixologyV2](https://expo.io/@mikrowil/projects/Mixology) 
 
 
 For more information check out our wiki
