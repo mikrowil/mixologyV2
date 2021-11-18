@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet,Button, Text, View } from 'react-native';
 // @ts-ignore
 import * as Google from 'expo-google-app-auth';
+
 import {auth} from "../configs/firebaseSetup";
 import firebase from "firebase";
 import { SocialIcon } from 'react-native-elements'
@@ -26,6 +27,8 @@ export default class LoginScreen extends React.Component{
         }
         return false;
     }
+
+
 
     onSignI = (googleUser) => {
         //console.log('Google Auth Response', googleUser);
@@ -84,6 +87,7 @@ export default class LoginScreen extends React.Component{
                     <SocialIcon style={{padding:10,}} button raised title='Sign In With Google'  type='google'
                         onPress={() => this.signInWithGoogleAsync()}
                     />
+
                 </View>
             </View>
         );
