@@ -2,21 +2,34 @@ import React from "react";
 import {ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
 
+/**
+ Card meant to be displayed on the ResultList component when
+ horizontal is set to false
+ @param {object} item - the drink to be shown
+ @param {bool} isFave - determines if drink is in the users favorite list
+ @returns {JSX.Element} The drink card component
+ */
 const DrinkCardVertical = ({item, isFave}) => {
     const navigation = useNavigation()
 
+    /**Extracting id from item being rendered*/
     const id = item.idDrink
 
+    /**
+     Handles the navigation to the show drink screen from the id provided to the
+     DrinkCardVertical component
+     */
+    const handleNavigation = () => {
+        navigation.navigate("ShowScreen", {
+            id: id,
+            isFave,
+            item
+        })
+    }
 
     return (
         <View>
-            <TouchableOpacity onPress={() => {
-                navigation.navigate("ShowScreen", {
-                    id: id,
-                    isFave,
-                    item
-                })
-            }}
+            <TouchableOpacity onPress={handleNavigation}
                               style={{
                                   shadowColor: "#000000",
                                   shadowOffset: {
@@ -26,7 +39,7 @@ const DrinkCardVertical = ({item, isFave}) => {
                                   shadowOpacity: 0.7,
                                   shadowRadius: 5,
                                   elevation: 5,
-                                  borderRadius:20,
+                                  borderRadius: 20,
                                   marginHorizontal: 5,
                               }}
             >

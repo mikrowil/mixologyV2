@@ -4,13 +4,16 @@ import {Feather} from '@expo/vector-icons'
 import {useDispatch, useSelector} from "react-redux";
 import {searchApi, setSearchTerm} from "../redux/actions/searchActions";
 
-
+/**
+Allows a user to enter a search term for the search screen
+@returns {JSX.Element}
+ */
 const SearchBar = () => {
     const dispatch = useDispatch()
 
     const searchTerm = useSelector((state) => state.search.searchTerm)
 
-    const endEditing = () =>{
+    const endEditing = () => {
         dispatch(searchApi(searchTerm))
     }
 
@@ -50,10 +53,10 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         color: '#c0c0c0',
         fontFamily: "OpenSans_600SemiBold",
-        shadowColor:"#000000",
-        shadowOpacity:0.2,
-        shadowOffset:{width:1,height:3},
-        shadowRadius:3,
+        shadowColor: "#000000",
+        shadowOpacity: 0.2,
+        shadowOffset: {width: 1, height: 3},
+        shadowRadius: 3,
     },
     icon: {
         alignSelf: 'center',

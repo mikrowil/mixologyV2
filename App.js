@@ -8,7 +8,7 @@ import {navigationRef} from "./src/configs/RootNav";
 import FavoriteStack from "./src/stacks/FavoriteStack";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoginScreen from "./src/screens/Login";
-import {AntDesign, Feather, MaterialCommunityIcons} from '@expo/vector-icons';
+import {AntDesign, Feather} from '@expo/vector-icons';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store'
 import {OpenSans_300Light, OpenSans_600SemiBold, OpenSans_800ExtraBold, useFonts} from '@expo-google-fonts/open-sans';
@@ -19,9 +19,15 @@ import LoadingScreen from "./src/screens/LoadingScreen";
 import AccountScreen from "./src/screens/AccountScreen";
 import HeaderCustom from "./src/components/HeaderCustom";
 
+//Initializes both navigators
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
 
+/**
+ * Entry point for mixology
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const App = () => {
 
     return (
@@ -31,8 +37,14 @@ const App = () => {
     );
 }
 
+/**
+ * Returns a Navigation container which maintains all screens in the application.
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const NavContainer = () => {
 
+    //Pre-loads all fonts, for use in the stylesheet component
     const [fontsLoaded] = useFonts({
         OpenSans_300Light,
         OpenSans_800ExtraBold,
@@ -40,7 +52,7 @@ const NavContainer = () => {
         OpenSans_600SemiBold
     })
 
-
+    //Loading component shown while fonts are loaded
     if (!fontsLoaded) {
         return <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#242525'}}>
             <ActivityIndicator size={'large'}/>
@@ -64,6 +76,11 @@ const NavContainer = () => {
     )
 }
 
+/**
+ * Shown once a user successfully logs in
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const MainApp = () => {
 
     return (
@@ -76,11 +93,12 @@ const MainApp = () => {
             backgroundColor: '#242525',
             paddingTop: 20,
         }} drawerType="back"
-            screenOptions={{headerShown:true,
-                header:()=>(
-                    <HeaderCustom/>
-                )
-            }}
+                          screenOptions={{
+                              headerShown: true,
+                              header: () => (
+                                  <HeaderCustom/>
+                              )
+                          }}
         >
             <Drawer.Screen options={{
                 drawerIcon: ({focused, size}) => (
@@ -106,7 +124,7 @@ const MainApp = () => {
             }}/>
             <Drawer.Screen name={"SearchStack"} component={SearchStack} options={{
                 title: "Search",
-                header:()=>(
+                header: () => (
                     <HeaderCustom withSearch={true}/>
                 ),
                 drawerIcon: ({focused, size}) => (

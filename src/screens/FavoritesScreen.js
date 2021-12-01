@@ -4,16 +4,22 @@ import ResultList from "../components/ResultList";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchFavorites} from "../redux/actions/fetchActions";
 
-
+/**
+ * Displays a users favorite drinks
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const FavoriteScreen = () => {
 
     const favorites = useSelector((state) => state.fetch.favorites)
     const dispatch = useDispatch()
 
-    const isAFave = (id) => {
+    //Always returns true because, if it appears in the favorite screen it is a favorite.
+    const isAFave = () => {
         return true
     }
 
+    //Handles list pull down behavior
     const refreshControl = async () => {
         dispatch(fetchFavorites())
     }
@@ -43,7 +49,7 @@ const styles = StyleSheet.create({
     },
 
     list_container: {
-        flex:1,
+        flex: 1,
         alignContent: "center"
     }
 })

@@ -1,20 +1,21 @@
-
 import React from 'react';
-import { StyleSheet,Button, Text, View } from 'react-native';
-// @ts-ignore
+import {StyleSheet, Text, View} from 'react-native';
 import * as Google from 'expo-google-app-auth';
-
 import {auth} from "../configs/firebaseSetup";
 import firebase from "firebase";
-import { SocialIcon } from 'react-native-elements'
+import {SocialIcon} from 'react-native-elements'
 
-export default class LoginScreen extends React.Component{
+
+/**
+ *
+ */
+export default class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
 
     }
 
-    isUserEqual= (googleUser, firebaseUser)=> {
+    isUserEqual = (googleUser, firebaseUser) => {
         if (firebaseUser) {
             const providerData = firebaseUser.providerData;
             for (let i = 0; i < providerData.length; i++) {
@@ -29,9 +30,7 @@ export default class LoginScreen extends React.Component{
     }
 
 
-
     onSignI = (googleUser) => {
-        //console.log('Google Auth Response', googleUser);
         // We need to register an Observer on Firebase Auth to make sure auth is initialized.
         const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
             unsubscribe();
@@ -59,12 +58,15 @@ export default class LoginScreen extends React.Component{
         });
     }
 
-    signInWithGoogleAsync= async ()=> {
+    /**
+     * Attempts a sign in to google
+     * @returns {Promise<{error: boolean}|{cancelled: boolean}|*>}
+     */
+    signInWithGoogleAsync = async () => {
         try {
             const result = await Google.logInAsync({
                 androidClientId: "165595614793-ijttomns4tn5mgqb12cn1208fnk24coc.apps.googleusercontent.com",
                 iosClientId: "165595614793-f9m4u18tmj7r4rcsb12d02dfknrb1nck.apps.googleusercontent.com",
-
                 scopes: ['profile', 'email'],
             });
 
@@ -72,10 +74,10 @@ export default class LoginScreen extends React.Component{
                 this.onSignI(result)
                 return result.accessToken;
             } else {
-                return { cancelled: true };
+                return {cancelled: true};
             }
         } catch (e) {
-            return { error: true };
+            return {error: true};
         }
     }
 
@@ -84,8 +86,8 @@ export default class LoginScreen extends React.Component{
             <View style={styles.container}>
                 <View style={styles.subContainer}>
                     <Text style={styles.head}>Mixology</Text>
-                    <SocialIcon style={{padding:10,}} button raised title='Sign In With Google'  type='google'
-                        onPress={() => this.signInWithGoogleAsync()}
+                    <SocialIcon style={{padding: 10,}} button raised title='Sign In With Google' type='google'
+                                onPress={() => this.signInWithGoogleAsync()}
                     />
 
                 </View>
@@ -103,20 +105,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
     },
-    head:{
+    head: {
         fontFamily: 'Poppins_800ExtraBold',
-        fontSize:42,
-        color:"#e67bec",
+        fontSize: 42,
+        color: "#e67bec",
         textShadowColor: '#000000',
         textShadowRadius: 5,
     },
-    subContainer:{
-        height:'70%',
+    subContainer: {
+        height: '70%',
 
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    btn_style:{
-
-    }
+    btn_style: {}
 });

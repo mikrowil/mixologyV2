@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/HomeScreen.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/HomeScreen.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useCallback, useEffect, useState} from 'react';
+import {ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View,} from 'react-native';
+import ResultList from "../components/ResultList";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCocktails, fetchNew, fetchPopular, fetchPunches, fetchShots} from "../redux/actions/fetchActions";
+
+/**
+ * First page shown, once a user logs in
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const HomeScreen = () => {
+
+    //main scrollview refreshing state
+    const [refreshingMain, setRefreshingMain] = useState(false)
+
+    //Dispatch
+    const dispatch = useDispatch()
+
+    //Different categories of drinks
+    const favorites = useSelector((state) => state.fetch.favorites)
+    const popular = useSelector((state) => state.fetch.popular)
+    const newest = useSelector(state => state.fetch.newest)
+    const cocktails = useSelector(state => state.fetch.cocktails)
+    const shots = useSelector(state => state.fetch.shots)
+    const punches = useSelector(state => state.fetch.punches)
+
+    //Loading states
+    const isLoading = useSelector((state) => state.fetch.isLoadingPopular)
+    const isLoadingNew = useSelector((state) => state.fetch.isLoadingNewest)
+    const isLoadingCocktails = useSelector((state) => state.fetch.isLoadingCocktails)
+    const isLoadingShots = useSelector((state) => state.fetch.isLoadingShots)
+    const isLoadingPunches = useSelector((state) => state.fetch.isLoadingPunches)
+
+    //Function to check if a drink is in a users favorite list
+    const isAFave = (id) => {
+        let found = false
+
+        if (!favorites) {
+            return false
+        }
+
+        for (let i = 0; i &lt; favorites.length; i++) {
+            if (favorites[i].idDrink === id) {
+                return true;
+            }
+        }
+        return found
+    }
+
+    const onRefresh = useCallback(() => {
+        setRefreshingMain(true)
+        refreshControl().then(setRefreshingMain(false))
+    }, []);
+
+    const refreshControl = async () => {
+        dispatch(fetchPopular())
+        dispatch(fetchNew())
+        dispatch(fetchCocktails())
+        dispatch(fetchShots())
+        dispatch(fetchPunches())
+    }
+
+    useEffect(() => {
+        dispatch(fetchPopular())
+        dispatch(fetchNew())
+        dispatch(fetchCocktails())
+        dispatch(fetchShots())
+        dispatch(fetchPunches())
+    }, [])
+
+
+    return &lt;View style={styles.container}>
+
+        {!isLoading &amp;&amp; !isLoadingNew &amp;&amp; !isLoadingCocktails &amp;&amp; !isLoadingShots &amp;&amp; !isLoadingPunches ?
+            &lt;ScrollView refreshControl={&lt;RefreshControl refreshing={refreshingMain} onRefresh={() => onRefresh()}/>}
+                        style={styles.list_container}>
+
+                &lt;ResultList
+                    refreshControl={refreshControl}
+                    cocktails={popular}
+                    isAFave={isAFave}
+                    title={"Most Popular"}
+                    horizontal={true}
+                />
+                &lt;ResultList
+                    refreshControl={refreshControl}
+                    cocktails={newest}
+                    isAFave={isAFave}
+                    title={"Just Added"}
+                    horizontal={true}
+                />
+                &lt;ResultList
+                    refreshControl={refreshControl}
+                    cocktails={cocktails}
+                    isAFave={isAFave}
+                    title={"Cocktails"}
+                    horizontal={true}
+                />
+                &lt;ResultList
+                    refreshControl={refreshControl}
+                    cocktails={shots}
+                    isAFave={isAFave}
+                    title={"Shots"}
+                    horizontal={true}
+                />
+                &lt;ResultList
+                    refreshControl={refreshControl}
+                    cocktails={punches}
+                    isAFave={isAFave}
+                    title={"Party Punches"}
+                    horizontal={true}
+                />
+            &lt;/ScrollView>
+            :
+            &lt;ActivityIndicator
+                size={'large'}
+                style={{alignSelf: "center", marginVertical: '25%'}}
+            />}
+    &lt;/View>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#323233",
+
+    },
+
+    list_container: {
+
+        height: "35%",
+        alignContent: "center"
+    },
+    search_result_txt: {
+        shadowColor: "#000000",
+        shadowOpacity: 0.7,
+        shadowOffset: {width: 2, height: 3},
+        shadowRadius: 3,
+        marginHorizontal: '20%',
+        marginVertical: '1%',
+        fontSize: 22,
+
+    }
+})
+
+export default HomeScreen
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountScreen.html">AccountScreen</a></li><li><a href="FavoriteScreen.html">FavoriteScreen</a></li><li><a href="HeaderCustom.html">HeaderCustom</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="LoadingScreen.html">LoadingScreen</a></li><li><a href="module.html#.exports">exports</a></li><li><a href="MoodScreen.html">MoodScreen</a></li><li><a href="ResultList.html">ResultList</a></li><li><a href="SearchScreen.html">SearchScreen</a></li><li><a href="ShowDrinkScreen.html">ShowDrinkScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html#CustomFooter">CustomFooter</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkCardVertical">DrinkCardVertical</a></li><li><a href="global.html#fetchCocktails">fetchCocktails</a></li><li><a href="global.html#fetchFavorites">fetchFavorites</a></li><li><a href="global.html#fetchNew">fetchNew</a></li><li><a href="global.html#fetchPopular">fetchPopular</a></li><li><a href="global.html#fetchPunches">fetchPunches</a></li><li><a href="global.html#fetchReducer">fetchReducer</a></li><li><a href="global.html#fetchShots">fetchShots</a></li><li><a href="global.html#initState">initState</a></li><li><a href="global.html#navigate">navigate</a></li><li><a href="global.html#navigationRef">navigationRef</a></li><li><a href="global.html#push">push</a></li><li><a href="global.html#rootReducer">rootReducer</a></li><li><a href="global.html#searchApi">searchApi</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#searchReducer">searchReducer</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#toggleDrawer">toggleDrawer</a></li><li><a href="global.html#toggleRefresh">toggleRefresh</a></li><li><a href="global.html#userReducer">userReducer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Nov 29 2021 23:13:38 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

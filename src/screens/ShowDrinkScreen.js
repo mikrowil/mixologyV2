@@ -7,9 +7,13 @@ import firebase from "firebase";
 import {fetchFavorites} from "../redux/actions/fetchActions";
 import {useDispatch} from "react-redux";
 
-/*
-    The show drink screen shows a drink that has been selected by the user,
-    and shows more info than a standard fetch from the database.
+/**
+ * The show drink screen shows a drink that has been selected by the user,
+ * and shows more info than a standard fetch from the database.
+ * @param route
+ * @param navigation
+ * @returns {JSX.Element}
+ * @constructor
  */
 const ShowDrinkScreen = ({route, navigation}) =>{
 

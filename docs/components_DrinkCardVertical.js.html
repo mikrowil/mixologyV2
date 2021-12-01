@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/DrinkCardVertical.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/DrinkCardVertical.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import {ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {useNavigation} from '@react-navigation/native';
+
+/**
+ Card meant to be displayed on the ResultList component when
+ horizontal is set to false
+ @param {object} item - the drink to be shown
+ @param {bool} isFave - determines if drink is in the users favorite list
+ @returns {JSX.Element} The drink card component
+ */
+const DrinkCardVertical = ({item, isFave}) => {
+    const navigation = useNavigation()
+
+    /**Extracting id from item being rendered*/
+    const id = item.idDrink
+
+    /**
+     Handles the navigation to the show drink screen from the id provided to the
+     DrinkCardVertical component
+     */
+    const handleNavigation = () => {
+        navigation.navigate("ShowScreen", {
+            id: id,
+            isFave,
+            item
+        })
+    }
+
+    return (
+        &lt;View>
+            &lt;TouchableOpacity onPress={handleNavigation}
+                              style={{
+                                  shadowColor: "#000000",
+                                  shadowOffset: {
+                                      width: 5,
+                                      height: 10
+                                  },
+                                  shadowOpacity: 0.7,
+                                  shadowRadius: 5,
+                                  elevation: 5,
+                                  borderRadius: 20,
+                                  marginHorizontal: 5,
+                              }}
+            >
+
+                &lt;ImageBackground imageStyle={{borderRadius: 10}} source={{uri: item.strDrinkThumb}}
+                                 style={[styles.container]}>
+                    &lt;Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}&lt;/Text>
+                &lt;/ImageBackground>
+
+            &lt;/TouchableOpacity>
+        &lt;/View>
+    )
+}
+
+const styles = StyleSheet.create({
+    image: {
+        width: 150,
+        height: 150,
+        alignSelf: "center",
+        borderRadius: 5,
+        marginHorizontal: 10,
+        marginVertical: 10,
+        resizeMode: "contain",
+        borderWidth: 2,
+    },
+
+    container: {
+        marginHorizontal: 5,
+
+        width: "90%",
+        height: 120,
+        borderColor: 'black',
+
+
+        marginVertical: 10,
+        alignSelf: "center",
+
+    },
+    text_drink: {
+        marginHorizontal: 10,
+        marginTop: 'auto',
+        marginBottom: 10,
+        color: '#ebebeb',
+        fontFamily: 'Poppins_800ExtraBold',
+
+        fontSize: 24,
+        textShadowColor: '#000000',
+        textShadowRadius: 5,
+        elevation: 1,
+
+    },
+
+})
+
+export default DrinkCardVertical
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountScreen.html">AccountScreen</a></li><li><a href="FavoriteScreen.html">FavoriteScreen</a></li><li><a href="HeaderCustom.html">HeaderCustom</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="LoadingScreen.html">LoadingScreen</a></li><li><a href="module.html#.exports">exports</a></li><li><a href="MoodScreen.html">MoodScreen</a></li><li><a href="ResultList.html">ResultList</a></li><li><a href="SearchScreen.html">SearchScreen</a></li><li><a href="ShowDrinkScreen.html">ShowDrinkScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html#CustomFooter">CustomFooter</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkCardVertical">DrinkCardVertical</a></li><li><a href="global.html#fetchCocktails">fetchCocktails</a></li><li><a href="global.html#fetchFavorites">fetchFavorites</a></li><li><a href="global.html#fetchNew">fetchNew</a></li><li><a href="global.html#fetchPopular">fetchPopular</a></li><li><a href="global.html#fetchPunches">fetchPunches</a></li><li><a href="global.html#fetchReducer">fetchReducer</a></li><li><a href="global.html#fetchShots">fetchShots</a></li><li><a href="global.html#initState">initState</a></li><li><a href="global.html#navigate">navigate</a></li><li><a href="global.html#navigationRef">navigationRef</a></li><li><a href="global.html#push">push</a></li><li><a href="global.html#rootReducer">rootReducer</a></li><li><a href="global.html#searchApi">searchApi</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#searchReducer">searchReducer</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#toggleDrawer">toggleDrawer</a></li><li><a href="global.html#toggleRefresh">toggleRefresh</a></li><li><a href="global.html#userReducer">userReducer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Nov 29 2021 23:13:38 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

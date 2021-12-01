@@ -1,5 +1,6 @@
-import {createStore, applyMiddleware} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import rootReducer from "./rootReducer";
 import ReduxThunk from 'redux-thunk';
 
-export const store = createStore(rootReducer,applyMiddleware(ReduxThunk))
+/** The index file for redux */
+export const store = createStore(rootReducer, applyMiddleware(ReduxThunk))

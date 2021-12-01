@@ -5,11 +5,21 @@ import randomColor from 'randomcolor'
 import cocktailsApi from "../api/cocktailApi";
 import DrinkCard from "../components/DrinkCard";
 
-
+/**
+ * Mood screen - When a touch is detected, the background color will become
+ * animated. Presents the user with a random beverage under the false pretenses, that
+ * the device is reading the users mood.
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const MoodScreen = () => {
 
+    //Determines if input is valid from a user
     const [screenDisabled, setScreenDisabled] = useState(false)
+
     const [cocktails, setCocktails] = useState([])
+
+    //Initial color for color changing screen
     const [color, setColor] = useState("#323233")
 
     const [intervalId, setIntervalId] = useState(0)
@@ -26,6 +36,9 @@ const MoodScreen = () => {
         }
     }
 
+    /**
+     * Color changing screen start function
+     */
     const start = () => {
         if (screenDisabled) {
             return
@@ -36,7 +49,10 @@ const MoodScreen = () => {
         }, 800))
     }
 
-
+    /**
+     * Color changing screen stop function
+     * @returns {Promise<void>}
+     */
     const stop = async ()=>{
         clearInterval(intervalId)
         await searchApi()
@@ -44,6 +60,8 @@ const MoodScreen = () => {
         setColor("#323233")
         setMessage(" ")
     }
+
+    //Displays before user interaction
     if(message === ""){
         setMessage("Hold your thumb on the screen to sense your mood. Or just tap for a quick random selection")
 

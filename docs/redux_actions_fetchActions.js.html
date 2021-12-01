@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: redux/actions/fetchActions.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: redux/actions/fetchActions.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {auth, firestore} from "../../configs/firebaseSetup";
+import {
+    FETCH_COCKTAILS,
+    FETCH_FAVORITES,
+    FETCH_NEW,
+    FETCH_POPULAR,
+    FETCH_PUNCHES,
+    FETCH_SHOTS,
+    LOADING_COCKTAILS,
+    LOADING_FAVORITES,
+    LOADING_NEW,
+    LOADING_POPULAR,
+    LOADING_PUNCHES,
+    LOADING_SHOTS,
+    REFRESHING,
+} from "../types";
+import cocktailsApi from "../../api/cocktailApi";
+
+/**
+ Calls the backend api to get cocktails listed in the users favorites
+ @returns {function} function that dispatches an action to redux reducer
+ */
+export const fetchFavorites = () => async dispatch => {
+
+    try {
+        const response = await firestore.collection("users").doc(auth.currentUser.uid).get()
+        const res = response.data().favorites
+
+        dispatch({type: FETCH_FAVORITES, payload: res})
+
+    } catch (err) {
+        const response = await firestore.collection("users").doc(auth.currentUser.uid).set({favorites: []})
+        const res = []
+
+        dispatch({type: FETCH_FAVORITES, payload: res})
+    }
+    dispatch({type: LOADING_FAVORITES, payload: false})
+}
+
+/**
+ * Calls the backend api to get the most popular cocktails
+ * @returns {(function(*=): Promise&lt;void>)|*}
+ */
+export const fetchPopular = () => async dispatch => {
+    toggleRefresh(dispatch, true)
+    dispatch({type: LOADING_POPULAR, payload: true})
+
+    try {
+        const response = await cocktailsApi.get("most-popular", [])
+        //setCocktails(response.data.drinks)
+        let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
+
+        dispatch({type: FETCH_POPULAR, payload: myArr})
+
+
+    } catch (e) {
+        //console.log(e)
+    }
+    toggleRefresh(dispatch, false)
+    dispatch({type: LOADING_POPULAR, payload: false})
+}
+
+/**
+ * Calls the backend api to get new beverages
+ * @returns {(function(*): Promise&lt;void>)|*} function that dispatches an action to redux reducer
+ */
+export const fetchNew = () => async dispatch => {
+    dispatch({type: LOADING_NEW, payload: true})
+    try {
+        const response = await cocktailsApi.get(`/latest.php`, [])
+        let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
+        dispatch({type: FETCH_NEW, payload: myArr})
+    } catch (err) {
+        throw new Error('Unable to fetch new cocktails')
+    }
+    dispatch({type: LOADING_NEW, payload: false})
+}
+
+/**
+ *  Calls the backend api to get cocktails
+ * @returns {(function(*): Promise&lt;void>)|*}
+ */
+export const fetchCocktails = () => async dispatch => {
+    dispatch({type: LOADING_COCKTAILS, payload: true})
+    try {
+        const response = await cocktailsApi.get(`/filter.php?c=Cocktail`, [])
+        let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
+        dispatch({type: FETCH_COCKTAILS, payload: myArr})
+    } catch (err) {
+        throw new Error('Unable to fetch type cocktails')
+    }
+    dispatch({type: LOADING_COCKTAILS, payload: false})
+}
+
+/**
+ * Calls the backend api to get shots
+ * @returns {(function(*): Promise&lt;void>)|*}
+ */
+export const fetchShots = () => async dispatch => {
+    dispatch({type: LOADING_SHOTS, payload: true})
+    try {
+        const response = await cocktailsApi.get(`/filter.php?c=Shot`, [])
+        let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
+        dispatch({type: FETCH_SHOTS, payload: myArr})
+    } catch (err) {
+        throw new Error('Unable to fetch shots')
+    }
+    dispatch({type: LOADING_SHOTS, payload: false})
+}
+
+/**
+ * Calls the backend api to get punches/ party drinks
+ * @returns {(function(*): Promise&lt;void>)|*}
+ */
+export const fetchPunches = () => async dispatch => {
+    dispatch({type: LOADING_PUNCHES, payload: true})
+    try {
+        const response = await cocktailsApi.get(`/filter.php?c=Punch / Party Drink`, [])
+        let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
+        dispatch({type: FETCH_PUNCHES, payload: myArr})
+    } catch (err) {
+        throw new Error('Unable to fetch new cocktails')
+    }
+    dispatch({type: LOADING_PUNCHES, payload: false})
+}
+
+/**
+ * toggles is app refreshing
+ * @param dispatch
+ * @param action
+ */
+export const toggleRefresh = (dispatch, action) => {
+    dispatch({type: REFRESHING, payload: action})
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountScreen.html">AccountScreen</a></li><li><a href="FavoriteScreen.html">FavoriteScreen</a></li><li><a href="HeaderCustom.html">HeaderCustom</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="LoadingScreen.html">LoadingScreen</a></li><li><a href="module.html#.exports">exports</a></li><li><a href="MoodScreen.html">MoodScreen</a></li><li><a href="ResultList.html">ResultList</a></li><li><a href="SearchScreen.html">SearchScreen</a></li><li><a href="ShowDrinkScreen.html">ShowDrinkScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html#CustomFooter">CustomFooter</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkCardVertical">DrinkCardVertical</a></li><li><a href="global.html#fetchCocktails">fetchCocktails</a></li><li><a href="global.html#fetchFavorites">fetchFavorites</a></li><li><a href="global.html#fetchNew">fetchNew</a></li><li><a href="global.html#fetchPopular">fetchPopular</a></li><li><a href="global.html#fetchPunches">fetchPunches</a></li><li><a href="global.html#fetchReducer">fetchReducer</a></li><li><a href="global.html#fetchShots">fetchShots</a></li><li><a href="global.html#initState">initState</a></li><li><a href="global.html#navigate">navigate</a></li><li><a href="global.html#navigationRef">navigationRef</a></li><li><a href="global.html#push">push</a></li><li><a href="global.html#rootReducer">rootReducer</a></li><li><a href="global.html#searchApi">searchApi</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#searchReducer">searchReducer</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#toggleDrawer">toggleDrawer</a></li><li><a href="global.html#toggleRefresh">toggleRefresh</a></li><li><a href="global.html#userReducer">userReducer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Nov 29 2021 23:13:38 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

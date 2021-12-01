@@ -4,13 +4,15 @@ import ResultList from "../components/ResultList";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCocktails, fetchNew, fetchPopular, fetchPunches, fetchShots} from "../redux/actions/fetchActions";
 
-const HomeScreen = (props,{search,route}) => {
-
-    //Search state
-    const [searchTerm, setSearchTerm] = useState("")
+/**
+ * First page shown, once a user logs in
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const HomeScreen = () => {
 
     //main scrollview refreshing state
-    const [refreshingMain,setRefreshingMain] = useState(false)
+    const [refreshingMain, setRefreshingMain] = useState(false)
 
     //Dispatch
     const dispatch = useDispatch()
@@ -34,10 +36,14 @@ const HomeScreen = (props,{search,route}) => {
     const isAFave = (id) => {
         let found = false
 
-        if (!favorites) {return false}
+        if (!favorites) {
+            return false
+        }
 
         for (let i = 0; i < favorites.length; i++) {
-            if (favorites[i].idDrink === id) {return true;}
+            if (favorites[i].idDrink === id) {
+                return true;
+            }
         }
         return found
     }
@@ -66,8 +72,9 @@ const HomeScreen = (props,{search,route}) => {
 
     return <View style={styles.container}>
 
-        {!isLoading && !isLoadingNew && !isLoadingCocktails && !isLoadingShots && !isLoadingPunches?
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshingMain} onRefresh={()=>onRefresh()} />} style={styles.list_container}>
+        {!isLoading && !isLoadingNew && !isLoadingCocktails && !isLoadingShots && !isLoadingPunches ?
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshingMain} onRefresh={() => onRefresh()}/>}
+                        style={styles.list_container}>
 
                 <ResultList
                     refreshControl={refreshControl}
@@ -126,10 +133,10 @@ const styles = StyleSheet.create({
         alignContent: "center"
     },
     search_result_txt: {
-        shadowColor:"#000000",
-        shadowOpacity:0.7,
-        shadowOffset:{width:2,height:3},
-        shadowRadius:3,
+        shadowColor: "#000000",
+        shadowOpacity: 0.7,
+        shadowOffset: {width: 2, height: 3},
+        shadowRadius: 3,
         marginHorizontal: '20%',
         marginVertical: '1%',
         fontSize: 22,

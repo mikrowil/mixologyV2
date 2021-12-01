@@ -4,6 +4,11 @@ import ResultList from "../components/ResultList";
 import {useDispatch, useSelector} from "react-redux";
 import {searchApi} from "../redux/actions/searchActions";
 
+/**
+ * Search screen - displays a list of drinks from the search term provided to the api
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const SearchScreen = () => {
     const search = useSelector((state) => state.search.searchResult)
     const searchIsLoading = useSelector(state => state.search.searchLoading)

@@ -1,49 +1,53 @@
-
-import React, {useContext, useEffect} from 'react';
-import { StyleSheet, Text, View,ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-import {auth, firestore} from '../configs/firebaseSetup'
-import {Context} from "../context/UserContext";
+import React, {useEffect} from 'react';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {auth} from '../configs/firebaseSetup'
 import {useDispatch} from "react-redux";
-
-import {CHECK_AUTH} from "../redux/types";
 import {fetchFavorites} from "../redux/actions/fetchActions";
 
-const LoadingScreen=({navigation})=>{
+/**
+ * Screen that displays while user is attempting to login
+ * @param navigation
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const LoadingScreen = ({navigation}) => {
 
     const dispatch = useDispatch()
 
-
+    /**
+    Checks if the user has logged in and starts a listener for auth changes
+     */
     const checkIfLoggedIn = () => {
-        auth.onAuthStateChanged((user) =>{
-            if(user){
+        auth.onAuthStateChanged((user) => {
+            if (user) {
                 loadData()
 
-            }else {
+            } else {
                 navigation.navigate('LoginScreen')
             }
         })
     }
 
-    const loadData = async () =>{
+    /**
+    pre-loads data before main app opens
+     */
+    const loadData = async () => {
 
         await dispatch(fetchFavorites())
 
-
-
+        //Navigates towards the main app
         navigation.navigate('MainApp')
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         checkIfLoggedIn()
     })
 
     return (
-            <View style={styles.container}>
-                <ActivityIndicator size = "large"/>
-            </View>
-        );
+        <View style={styles.container}>
+            <ActivityIndicator size="large"/>
+        </View>
+    );
 
 }
 

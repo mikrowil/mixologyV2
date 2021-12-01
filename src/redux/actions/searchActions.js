@@ -1,6 +1,11 @@
 import {FETCH_SEARCH, LOADING_SEARCH, SEARCH_TERM} from "../types";
 import cocktailsApi from "../../api/cocktailApi";
 
+/**
+ * Uses a search term to fetch beverages from the backend
+ * @param searchTerm
+ * @returns {(function(*): Promise<void>)|*}
+ */
 export const searchApi = (searchTerm) => async (dispatch) => {
     dispatch({type: LOADING_SEARCH, payload: true})
     try {

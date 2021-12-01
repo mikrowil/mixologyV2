@@ -1,17 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Feather} from '@expo/vector-icons'
-import {toggleDrawer,push} from '../configs/RootNav'
-import {searchApi,setSearchTerm} from "../redux/actions/fetchActions";
+import {toggleDrawer} from '../configs/RootNav'
 import SearchBar from "./SearchBar";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigation} from "@react-navigation/native";
 
-const HeaderCustom = ({withSearch=false}) => {
-    const searchTerm = useSelector(state => state.fetch.searchTerm)
-    const dispatch = useDispatch()
+/**
+ * Header for the application.
+ * @param withSearch
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const HeaderCustom = ({withSearch = false}) => {
 
-    if(withSearch){
+    if (withSearch) {
         return <View style={styles.container}>
             <TouchableOpacity onPress={() => {
                 toggleDrawer()
@@ -29,7 +30,7 @@ const HeaderCustom = ({withSearch=false}) => {
         <TouchableOpacity onPress={() => {
             toggleDrawer()
         }}>
-            <Feather style={[styles.icon_menu,{marginBottom:10}]} color={"#ebebeb"} size={24} name={"menu"}/>
+            <Feather style={[styles.icon_menu, {marginBottom: 10}]} color={"#ebebeb"} size={24} name={"menu"}/>
         </TouchableOpacity>
         <View style={{width: "90%"}}>
 
@@ -54,10 +55,10 @@ const styles = StyleSheet.create({
 
     icon_menu: {
         marginTop: 20,
-        shadowColor:"#000000",
-        shadowOpacity:0.9,
-        shadowOffset:{width:2,height:3},
-        shadowRadius:3,
+        shadowColor: "#000000",
+        shadowOpacity: 0.9,
+        shadowOffset: {width: 2, height: 3},
+        shadowRadius: 3,
         elevation: 5,
     },
 })

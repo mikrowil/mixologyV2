@@ -1,18 +1,21 @@
-import {CHECK_AUTH, FETCH_FAVORITES, LOADING_FAVORITES, LOADING_POPULAR, FETCH_POPULAR, REFRESHING} from "../types";
-import {auth, firestore} from "../../configs/firebaseSetup";
+import {CHECK_AUTH} from "../types";
+import {auth} from "../../configs/firebaseSetup";
 
 
-
+/**
+@deprecated
+Listens for changes to user authentication
+ */
 export const checkAuth = () => async dispatch => {
 
 
     const checkIfLoggedIn = () => {
-        auth.onAuthStateChanged((user) =>{
-            if(user){
-                dispatch({type:CHECK_AUTH,payload:true})
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                dispatch({type: CHECK_AUTH, payload: true})
 
-            }else {
-                dispatch({type:CHECK_AUTH,payload:false})
+            } else {
+                dispatch({type: CHECK_AUTH, payload: false})
             }
         })
     }

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/ShowDrinkScreen.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/ShowDrinkScreen.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useEffect, useState, useRef} from "react";
+import {Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, Animated} from 'react-native'
+import cocktailsApi from "../api/cocktailApi";
+import {AntDesign} from '@expo/vector-icons'
+import {auth, firestore} from "../configs/firebaseSetup";
+import firebase from "firebase";
+import {fetchFavorites} from "../redux/actions/fetchActions";
+import {useDispatch} from "react-redux";
+
+/**
+ * The show drink screen shows a drink that has been selected by the user,
+ * and shows more info than a standard fetch from the database.
+ * @param route
+ * @param navigation
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const ShowDrinkScreen = ({route, navigation}) =>{
+
+    //Id of the drink that has been selected to use
+    const id = route.params.id
+    const item = route.params.item
+
+    const dispatch = useDispatch()
+
+    const [starOn, toggleStar] = useState(route.params.isFave ? "star" : "staro")
+    const [isFavorite, setIsFavorite] = useState(route.params.isFave)
+    const [isAvailable, setIsAvailable] = useState(true)
+
+    let scrollY = useRef(new Animated.Value(0)).current
+
+    let opacity = scrollY.interpolate({
+        inputRange:[-1,0,75],
+        outputRange:[1,1,0],
+
+    })
+
+    let yScale = scrollY.interpolate({
+        inputRange:[-100,-1,0,1],
+        outputRange:[1.4,1,1,1],
+        extrapolate:'clamp'
+    })
+
+    //State to hold the data for the drink
+    const [cocktail,setCocktails] = useState([])
+    const [ingredients, setIngredients] = useState([])
+
+    //Loading state of the drink
+    const [isLoading,setIsLoading] = useState(true)
+
+    const initToggle = () => {
+        if (isAvailable) {
+            setIsAvailable(false)
+            toggle().then(setIsAvailable(true))
+        }
+    }
+
+    const toggle = async () => {
+
+        const ref = firestore.collection("users").doc(auth.currentUser.uid)
+
+        if (isFavorite) {
+            setIsFavorite(false)
+
+            const response = await ref.update({
+                favorites: firebase.firestore.FieldValue.arrayRemove({
+                    idDrink: id,
+                    strDrink: item.strDrink,
+                    strDrinkThumb: item.strDrinkThumb,
+                })
+            })
+
+            dispatch(fetchFavorites())
+
+            toggleStar("staro")
+        } else {
+            setIsFavorite(true)
+
+
+            const response = await ref.update({
+                favorites: firebase.firestore.FieldValue.arrayUnion({
+                    idDrink: id,
+                    strDrink: item.strDrink,
+                    strDrinkThumb: item.strDrinkThumb,
+                })
+            })
+            dispatch(fetchFavorites())
+            toggleStar("star")
+        }
+
+
+    }
+
+    //Parses the ingredients from the database
+    const getIngredients = (cocktails) =>{
+        let done = false
+        let index = 1
+        let myIngreds = []
+        if(cocktails[0] !== null){
+            while(!done){
+                let strIngreds = `strIngredient${index}`
+                let strMeasures = `strMeasure${index}`
+                let response = {name:cocktails[0][`${strIngreds}`],ment:cocktails[0][`${strMeasures}`]}
+
+                if(response.name !== null &amp;&amp; response.name !== ""){
+                    myIngreds.push(response)
+
+                }else {
+
+                    done = true
+                }
+                if (index > 14){
+                    done = true
+                }
+                index++
+            }
+        }
+
+        setIngredients(myIngreds)
+    }
+
+    //Search api for getting drink info
+    const searchApi = async ()=>{
+        setIsLoading(true)
+        try{
+            const response = await cocktailsApi.get(`lookup.php?i=${id}`,[])
+            setCocktails(response.data.drinks)
+            getIngredients(response.data.drinks)
+
+        }catch (e){
+            console.log(e)
+        }
+        setIsLoading(false)
+
+    }
+
+    //Calls the api to get drink data to show
+    useEffect(()=>{
+        searchApi()
+
+    },[])
+
+
+    return(
+        &lt;View style={styles.container}>
+
+            {!isLoading?
+                &lt;View style={styles.list_container}>
+                    &lt;TouchableOpacity disabled={!isAvailable} onPress={() => initToggle()} style={styles.star_container}>
+                        &lt;AntDesign color={"#e67bec"} style={styles.star} size={25} name={`${starOn}`}/>
+                    &lt;/TouchableOpacity>
+                    &lt;TouchableOpacity style={styles.back_container} onPress={()=>{navigation.goBack()}}>
+                        &lt;AntDesign style={styles.back} size={30} color={"#e67bec"} name={"arrowleft"}/>
+                    &lt;/TouchableOpacity>
+                    &lt;Animated.Image source={{uri:cocktail[0].strDrinkThumb}} style={[styles.image_back,
+                        {opacity:opacity},
+                        {transform:[{scale:yScale}]}]}/>
+                    &lt;Animated.ScrollView contentContainerStyle={{paddingBottom:'4%'}}
+                        scrollIndicatorInsets={{right:1}}
+                        onScroll={Animated.event([{nativeEvent:{contentOffset:{y:scrollY}}}], {useNativeDriver:true})}
+                        scrollEventThrottle={20}
+                    >
+
+
+                        &lt;View style={{borderRadius:100, overflow:"hidden"}}>
+                            &lt;Animated.Image source={{uri:cocktail[0].strDrinkThumb}} style={[styles.image, {opacity:opacity}]}/>
+                        &lt;/View>
+
+
+                        &lt;View style={styles.grid_one}>
+
+
+                            &lt;Text style={styles.title}>{cocktail[0].strDrink}&lt;/Text>
+
+                            &lt;View style={styles.lineBreak}/>
+
+                            &lt;Text style={styles.text}>&lt;Text style={{fontWeight:"bold",color:"#e67bec"}}>Category: &lt;/Text>{cocktail[0].strCategory}&lt;/Text>
+
+                            &lt;View style={styles.lineBreak}/>
+
+                            {cocktail[0].strIBA ? &lt;View>
+                                &lt;Text style={styles.text}>
+                                    &lt;Text style={{fontWeight:"bold",color:"#e67bec"}}>IBA: &lt;/Text>{cocktail[0].strIBA}&lt;/Text>
+                                &lt;View style={styles.lineBreak}/>
+                            &lt;/View>:null}
+
+
+
+                            &lt;Text style={styles.text}>&lt;Text style={{fontWeight:"bold",color:"#e67bec"}}>Type: &lt;/Text>{cocktail[0].strAlcoholic}&lt;/Text>
+
+                            &lt;View style={styles.lineBreak}/>
+
+
+                            &lt;Text style={styles.text}>&lt;Text style={{fontWeight:"bold",color:"#e67bec"}}>Glass: &lt;/Text>{cocktail[0].strGlass}&lt;/Text>
+
+                            &lt;View style={styles.lineBreak}/>
+
+
+
+                        &lt;/View>
+                        &lt;View style={styles.txt_container}>
+                            &lt;Text style={styles.text}>
+                                &lt;Text style={{fontWeight:"bold",color:"#e67bec"}} >Instructions:&lt;/Text> {cocktail[0].strInstructions}
+                            &lt;/Text>
+                        &lt;/View>
+                        &lt;View style={styles.txt_container}>
+
+                            {ingredients.map((item,index)=>(
+                                &lt;View key={index} style={styles.ingredient_container}>
+                                    &lt;Text key={index} style={styles.text_ingredients}>&lt;Text style={{color:"#e67bec"}}>{item.ment}&lt;/Text> {item.name}&lt;/Text>
+                                &lt;/View>
+                            ))}
+                        &lt;/View>
+                    &lt;/Animated.ScrollView>
+                &lt;/View>
+                :
+                &lt;ActivityIndicator
+                    size={'large'}
+                    style={{alignSelf: "center", marginVertical: '25%'}}
+                />}
+        &lt;/View>
+    )
+}
+const styles = StyleSheet.create({
+    title:{
+        fontSize:32,
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
+        marginHorizontal:5,
+
+        color:'#ebebeb',
+        fontFamily: 'OpenSans_600SemiBold',
+    },
+    text:{
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
+        fontSize:18,
+        marginVertical:10,
+        marginHorizontal:5,
+        lineHeight:30,
+        color:'#ebebeb',
+        fontFamily: 'OpenSans_600SemiBold',
+    },
+    ingredient_container:{
+       width:"90%",
+        margin:20,
+        backgroundColor:"#323233",
+        borderRadius:10,
+        borderBottomWidth:2,
+        textAlign:"center",
+    },
+    text_ingredients:{
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
+
+        fontSize:18,
+        marginVertical:10,
+        marginLeft:'auto',
+        marginRight:"auto",
+        color:'#ebebeb',
+        fontFamily: 'OpenSans_600SemiBold',
+
+
+
+    },
+    list_container:{
+        flex:1,
+
+    },
+    star_container: {
+        width: 50,
+        height: 50,
+        position: "absolute",
+        right: 10,
+        top: 10,
+        zIndex: 1,
+
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:2,
+    },
+    star: {
+        position: "absolute",
+        right: 10,
+        top: 10,
+        textShadowColor: '#000000',
+        textShadowRadius: 1,
+    },
+
+    back_container:{
+        width: 50,
+        height: 50,
+        position: "absolute",
+        left: 10,
+        top: 10,
+        zIndex: 1,
+
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:2,
+    },
+    back:{
+        position: "absolute",
+        left: 10,
+        top: 10,
+        textShadowColor: '#000000',
+        textShadowRadius: 1,
+    },
+
+    container:{
+        height:'100%',
+        backgroundColor: "#323233",
+        width:'100%',
+
+    },
+    grid_one:{
+        paddingTop: 10,
+        marginHorizontal: 5,
+        marginVertical: 10,
+        width:"90%",
+
+        alignSelf: "center",
+    },
+
+    txt_container:{
+        marginHorizontal: 5,
+        marginVertical: 10,
+
+        width:"90%",
+
+        alignItems:"center",
+
+        alignSelf: "center",
+        fontFamily: 'OpenSans_600SemiBold',
+
+    },
+    image:{
+        width:150,
+        height:150,
+        borderRadius:100,
+
+        marginHorizontal:10,
+        marginVertical:10,
+        resizeMode:"contain",
+        alignSelf:"center",
+        borderColor:'black',
+        borderWidth:2,
+
+    },
+    image_back:{
+
+        position:"absolute",
+        width:800,
+        height:100,
+
+
+    },
+    lineBreak:{
+        shadowColor:"#000000",
+        shadowOpacity:0.9,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
+        borderBottomWidth:2,
+        borderColor:"#e67bec",
+        width:"100%",
+        height:1,
+    },
+})
+
+export default ShowDrinkScreen
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountScreen.html">AccountScreen</a></li><li><a href="FavoriteScreen.html">FavoriteScreen</a></li><li><a href="HeaderCustom.html">HeaderCustom</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="LoadingScreen.html">LoadingScreen</a></li><li><a href="module.html#.exports">exports</a></li><li><a href="MoodScreen.html">MoodScreen</a></li><li><a href="ResultList.html">ResultList</a></li><li><a href="SearchScreen.html">SearchScreen</a></li><li><a href="ShowDrinkScreen.html">ShowDrinkScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html#CustomFooter">CustomFooter</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkCardVertical">DrinkCardVertical</a></li><li><a href="global.html#fetchCocktails">fetchCocktails</a></li><li><a href="global.html#fetchFavorites">fetchFavorites</a></li><li><a href="global.html#fetchNew">fetchNew</a></li><li><a href="global.html#fetchPopular">fetchPopular</a></li><li><a href="global.html#fetchPunches">fetchPunches</a></li><li><a href="global.html#fetchReducer">fetchReducer</a></li><li><a href="global.html#fetchShots">fetchShots</a></li><li><a href="global.html#initState">initState</a></li><li><a href="global.html#navigate">navigate</a></li><li><a href="global.html#navigationRef">navigationRef</a></li><li><a href="global.html#push">push</a></li><li><a href="global.html#rootReducer">rootReducer</a></li><li><a href="global.html#searchApi">searchApi</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#searchReducer">searchReducer</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#toggleDrawer">toggleDrawer</a></li><li><a href="global.html#toggleRefresh">toggleRefresh</a></li><li><a href="global.html#userReducer">userReducer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Nov 29 2021 23:13:38 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

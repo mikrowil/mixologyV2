@@ -1,40 +1,63 @@
 import React, {useCallback, useRef} from 'react'
-import {ActivityIndicator, Animated, FlatList, StyleSheet, Text, View} from 'react-native'
+import {ActivityIndicator, Animated, StyleSheet, Text, View} from 'react-native'
 import DrinkCard from "./DrinkCard";
 import {useSelector} from "react-redux";
 import DrinkCardVertical from "./DrinkCardVertical";
 
+/**
+ Shows a list of card views containing cocktail data.
+ @param {array} cocktails - an array of cocktails to be displayed
+ @param {function} isAFave - function that determines if a drink is in the users
+ favorites list
+ @param {function} refreshControl - callback function to handle the pull down
+ refresh of the result list
+ @param {bool} isLoading - determines loading state of the list
+ @param {string} title - title of the list
+ @param {bool} horizontal - determines the direction of the list, defaults to
+ false
+ @returns {JSX.Element}
+ @constructor
+ */
 const ResultList = ({cocktails, isAFave, refreshControl, isLoading, title, horizontal = false}) => {
 
+    //Scroll references for animations
     const scrollX = useRef(new Animated.Value(0)).current
     const scrollY = useRef(new Animated.Value(0)).current
 
     const refreshing = useSelector(state => state.fetch.isRefreshing)
 
+    //Creates a callback for the refresh function
     const onRefresh = useCallback(() => {
         refreshControl()
     }, []);
 
-
+    /**
+     Item for the list, to be rendered
+     @param {object} item - drink data object to be displayed
+     @param {number} index - determines the index of the item in the list
+     @returns {JSX.Element}
+     */
     const ItemToRender = ({item, index}) => {
 
         let scale = 0
 
-        if(horizontal){
+        if (horizontal) {
             scale = scrollX.interpolate({
-                inputRange:[-1,0, 220 * index, 220 * (index + 2)],
-                outputRange:[1,1,1,0]
+                inputRange: [-1, 0, 220 * index, 220 * (index + 2)],
+                outputRange: [1, 1, 1, 0]
             })
-        }else {
+        } else {
             scale = scrollY.interpolate({
-                inputRange:[-1,0, 140 * index, 140 * (index + 2)],
-                outputRange:[1,1,1,0]
+                inputRange: [-1, 0, 140 * index, 140 * (index + 2)],
+                outputRange: [1, 1, 1, 0]
             })
         }
 
         return horizontal ?
-            <Animated.View style={{transform:[{scale}]}}><DrinkCard isFave={isAFave(item.idDrink)} item={item} /></Animated.View> :
-            <Animated.View style={{transform:[{scale}]}}><DrinkCardVertical isFave={isAFave(item.idDrink)} item={item}/></Animated.View>
+            <Animated.View style={{transform: [{scale}]}}><DrinkCard isFave={isAFave(item.idDrink)}
+                                                                     item={item}/></Animated.View> :
+            <Animated.View style={{transform: [{scale}]}}><DrinkCardVertical isFave={isAFave(item.idDrink)}
+                                                                             item={item}/></Animated.View>
     }
 
     if (!isLoading) {
@@ -52,20 +75,20 @@ const ResultList = ({cocktails, isAFave, refreshControl, isLoading, title, horiz
                                        refreshing={refreshing}
                                        horizontal={horizontal}
                                        scrollIndicatorInsets={{right: 1}}
-                                       onScroll={Animated.event([{nativeEvent:{contentOffset:{x:scrollX}}}], {useNativeDriver:true})}
+                                       onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}], {useNativeDriver: true})}
                                        scrollEventThrottle={20}
                     />
                     :
                     <Animated.FlatList style={styles.list_container} contentContainerStyle={{paddingBottom: 100}}
-                              keyExtractor={(item, index) => 'key' + index} data={cocktails}
-                              renderItem={ItemToRender}
-                              onRefresh={() => {
-                                  onRefresh()
-                              }}
-                              refreshing={refreshing}
-                              horizontal={horizontal}
-                              scrollIndicatorInsets={{right: 1}}
-                                       onScroll={Animated.event([{nativeEvent:{contentOffset:{y:scrollY}}}], {useNativeDriver:true})}
+                                       keyExtractor={(item, index) => 'key' + index} data={cocktails}
+                                       renderItem={ItemToRender}
+                                       onRefresh={() => {
+                                           onRefresh()
+                                       }}
+                                       refreshing={refreshing}
+                                       horizontal={horizontal}
+                                       scrollIndicatorInsets={{right: 1}}
+                                       onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {useNativeDriver: true})}
                                        scrollEventThrottle={20}
                     />}
 

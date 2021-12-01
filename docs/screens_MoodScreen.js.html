@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: screens/MoodScreen.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: screens/MoodScreen.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useState} from "react";
+import {FlatList, Pressable, StyleSheet, Text, View} from "react-native";
+import {AnimatedBackgroundColorView} from 'react-native-animated-background-color-view';
+import randomColor from 'randomcolor'
+import cocktailsApi from "../api/cocktailApi";
+import DrinkCard from "../components/DrinkCard";
+
+/**
+ * Mood screen - When a touch is detected, the background color will become
+ * animated. Presents the user with a random beverage under the false pretenses, that
+ * the device is reading the users mood.
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const MoodScreen = () => {
+
+    //Determines if input is valid from a user
+    const [screenDisabled, setScreenDisabled] = useState(false)
+
+    const [cocktails, setCocktails] = useState([])
+
+    //Initial color for color changing screen
+    const [color, setColor] = useState("#323233")
+
+    const [intervalId, setIntervalId] = useState(0)
+    const [message, setMessage] = useState("")
+
+
+    const searchApi = async () => {
+        try {
+            const response = await cocktailsApi.get('Random.php', [])
+            setCocktails(response.data.drinks)
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    /**
+     * Color changing screen start function
+     */
+    const start = () => {
+        if (screenDisabled) {
+            return
+        }
+        setScreenDisabled(true)
+        setIntervalId(setInterval(() => {
+            setColor(randomColor());
+        }, 800))
+    }
+
+    /**
+     * Color changing screen stop function
+     * @returns {Promise&lt;void>}
+     */
+    const stop = async ()=>{
+        clearInterval(intervalId)
+        await searchApi()
+        setScreenDisabled(false)
+        setColor("#323233")
+        setMessage(" ")
+    }
+
+    //Displays before user interaction
+    if(message === ""){
+        setMessage("Hold your thumb on the screen to sense your mood. Or just tap for a quick random selection")
+
+    }
+
+    return &lt;Pressable style={styles.container} onPressIn={() => {
+        start()
+    }} onPressOut={() => {
+        stop()
+    }}>
+
+        &lt;AnimatedBackgroundColorView color={color} style={{flex: 1}}>
+            {!cocktails.length ? &lt;View style={styles.empty_list_container}/> : &lt;View style={styles.list_container}>
+                &lt;FlatList keyExtractor={(item, index) => 'key' + index} data={cocktails} renderItem={({item}) => (
+                    &lt;DrinkCard item={item}/>
+                )}/>
+            &lt;/View>}
+            &lt;Text style={styles.text_message}>{message}&lt;/Text>
+
+        &lt;/AnimatedBackgroundColorView>
+    &lt;/Pressable>
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#323233',
+
+    },
+
+    list_container: {
+        marginVertical: 10,
+        height: "50%"
+    },
+    empty_list_container: {
+        height: "50%",
+        marginVertical: 10,
+    },
+    text_mood: {
+        shadowColor:"#000000",
+        shadowOpacity:0.7,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginHorizontal: 15,
+        marginTop: "30%",
+        fontFamily: "OpenSans_800ExtraBold",
+        color: '#ebebeb',
+        textShadowRadius: 1,
+        textShadowColor: '#000000',
+    },
+    text_message: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginHorizontal: 15,
+        textAlign: "center",
+        fontFamily: "OpenSans_800ExtraBold",
+        color: '#ebebeb',
+        textShadowRadius: 1,
+        textShadowColor: '#000000',
+        shadowColor:"#000000",
+        shadowOpacity:0.7,
+        shadowOffset:{width:2,height:3},
+        shadowRadius:3,
+    },
+    thumbprint: {
+        marginTop: "20%",
+        width: 100,
+        height: 150,
+        alignSelf: "center",
+        resizeMode: "contain"
+    }
+})
+
+export default MoodScreen
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountScreen.html">AccountScreen</a></li><li><a href="FavoriteScreen.html">FavoriteScreen</a></li><li><a href="HeaderCustom.html">HeaderCustom</a></li><li><a href="HomeScreen.html">HomeScreen</a></li><li><a href="LoadingScreen.html">LoadingScreen</a></li><li><a href="module.html#.exports">exports</a></li><li><a href="MoodScreen.html">MoodScreen</a></li><li><a href="ResultList.html">ResultList</a></li><li><a href="SearchScreen.html">SearchScreen</a></li><li><a href="ShowDrinkScreen.html">ShowDrinkScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authReducer">authReducer</a></li><li><a href="global.html#checkAuth">checkAuth</a></li><li><a href="global.html#CustomFooter">CustomFooter</a></li><li><a href="global.html#DrinkCard">DrinkCard</a></li><li><a href="global.html#DrinkCardVertical">DrinkCardVertical</a></li><li><a href="global.html#fetchCocktails">fetchCocktails</a></li><li><a href="global.html#fetchFavorites">fetchFavorites</a></li><li><a href="global.html#fetchNew">fetchNew</a></li><li><a href="global.html#fetchPopular">fetchPopular</a></li><li><a href="global.html#fetchPunches">fetchPunches</a></li><li><a href="global.html#fetchReducer">fetchReducer</a></li><li><a href="global.html#fetchShots">fetchShots</a></li><li><a href="global.html#initState">initState</a></li><li><a href="global.html#navigate">navigate</a></li><li><a href="global.html#navigationRef">navigationRef</a></li><li><a href="global.html#push">push</a></li><li><a href="global.html#rootReducer">rootReducer</a></li><li><a href="global.html#searchApi">searchApi</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#searchReducer">searchReducer</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#toggleDrawer">toggleDrawer</a></li><li><a href="global.html#toggleRefresh">toggleRefresh</a></li><li><a href="global.html#userReducer">userReducer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Nov 29 2021 23:13:38 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
