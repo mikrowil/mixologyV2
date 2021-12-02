@@ -46,7 +46,7 @@ export const fetchPopular = () => async dispatch => {
     dispatch({type: LOADING_POPULAR, payload: true})
 
     try {
-        const response = await cocktailsApi.get("most-popular", [])
+        const response = await cocktailsApi.get("/popular", [])
         //setCocktails(response.data.drinks)
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
 
@@ -67,7 +67,7 @@ export const fetchPopular = () => async dispatch => {
 export const fetchNew = () => async dispatch => {
     dispatch({type: LOADING_NEW, payload: true})
     try {
-        const response = await cocktailsApi.get(`/latest.php`, [])
+        const response = await cocktailsApi.get(`/new`, [])
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_NEW, payload: myArr})
     } catch (err) {
@@ -83,7 +83,7 @@ export const fetchNew = () => async dispatch => {
 export const fetchCocktails = () => async dispatch => {
     dispatch({type: LOADING_COCKTAILS, payload: true})
     try {
-        const response = await cocktailsApi.get(`/filter.php?c=Cocktail`, [])
+        const response = await cocktailsApi.get(`/cocktails`, [])
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_COCKTAILS, payload: myArr})
     } catch (err) {
@@ -99,7 +99,7 @@ export const fetchCocktails = () => async dispatch => {
 export const fetchShots = () => async dispatch => {
     dispatch({type: LOADING_SHOTS, payload: true})
     try {
-        const response = await cocktailsApi.get(`/filter.php?c=Shot`, [])
+        const response = await cocktailsApi.get(`/shots`, [])
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_SHOTS, payload: myArr})
     } catch (err) {
@@ -115,7 +115,7 @@ export const fetchShots = () => async dispatch => {
 export const fetchPunches = () => async dispatch => {
     dispatch({type: LOADING_PUNCHES, payload: true})
     try {
-        const response = await cocktailsApi.get(`/filter.php?c=Punch / Party Drink`, [])
+        const response = await cocktailsApi.get(`/punches`, [])
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_PUNCHES, payload: myArr})
     } catch (err) {

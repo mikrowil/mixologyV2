@@ -123,7 +123,12 @@ const ShowDrinkScreen = ({route, navigation}) =>{
     const searchApi = async ()=>{
         setIsLoading(true)
         try{
-            const response = await cocktailsApi.get(`lookup.php?i=${id}`,[])
+            const response = await cocktailsApi.get(`/lookup-from-id`,{
+                params:{
+                    drinkID:id
+                }
+            })
+
             setCocktails(response.data.drinks)
             getIngredients(response.data.drinks)
 

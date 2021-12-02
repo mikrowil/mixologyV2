@@ -40,11 +40,11 @@ const DrinkCard = ({item, isFave}) => {
                                   shadowOpacity: 0.7,
                                   shadowRadius: 5,
                                   elevation: 5,
-                                  borderRadius:20,
+
 
                                   marginHorizontal: 5,
                               }}>
-                <ImageBackground imageStyle={{borderRadius: 25}} source={{uri: item.strDrinkThumb}}
+                <ImageBackground imageStyle={{borderRadius: 10}} source={{uri: item.strDrinkThumb}}
                                  style={[styles.container]}>
                     <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
                 </ImageBackground>
@@ -55,13 +55,11 @@ const DrinkCard = ({item, isFave}) => {
 
 const styles = StyleSheet.create({
     image: {
-        width: 150,
-        height: 150,
-        alignSelf: "center",
-        borderRadius: 5,
+        width: undefined,
+        height: undefined,
+        flex:1,
         marginHorizontal: 10,
         marginVertical: 10,
-        resizeMode: "contain",
         borderWidth: 2,
     },
     star_container: {
@@ -86,7 +84,7 @@ const styles = StyleSheet.create({
         width: 200,
         height: 250,
         borderColor: 'black',
-        borderRadius: 25,
+        borderRadius: 10,
         backgroundColor: "#323233",
 
         alignSelf: "center",

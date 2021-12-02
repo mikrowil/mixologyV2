@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
 
     },
     text: {
+        alignSelf:"center",
         fontFamily: "OpenSans_800ExtraBold",
         marginLeft: 5,
         fontSize: 32,
@@ -125,10 +126,10 @@ const styles = StyleSheet.create({
     lineBreak: {
         borderBottomWidth: 2,
         borderColor: "#e67bec",
-        width: "100%",
+        width: "95%",
         height: 1,
-        marginHorizontal: '2%',
 
+        alignSelf: "center",
         shadowColor: "#000000",
         shadowOpacity: 0.7,
         shadowOffset: {width: 2, height: 3},

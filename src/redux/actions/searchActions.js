@@ -9,13 +9,19 @@ import cocktailsApi from "../../api/cocktailApi";
 export const searchApi = (searchTerm) => async (dispatch) => {
     dispatch({type: LOADING_SEARCH, payload: true})
     try {
-        const response = await cocktailsApi.get(`/search.php?s=${searchTerm}`, [])
-        let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
+        const response = await cocktailsApi.get(`/search`, {
+            params:{
+                term:searchTerm
+            }
+        })
+        let drinks = response.data.drinks
+
         //setCocktails(response.data.drinks)
-        dispatch({type: FETCH_SEARCH, payload: myArr})
+        dispatch({type: FETCH_SEARCH, payload: drinks})
 
     } catch (e) {
         const response = []
+
         //setCocktails(response.data.drinks)
         dispatch({type: FETCH_SEARCH, payload: response})
     }

@@ -28,7 +28,7 @@ const MoodScreen = () => {
 
     const searchApi = async () => {
         try {
-            const response = await cocktailsApi.get('Random.php', [])
+            const response = await cocktailsApi.get('random', [])
             setCocktails(response.data.drinks)
 
         } catch (e) {

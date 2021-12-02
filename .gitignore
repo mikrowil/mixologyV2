@@ -9,7 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 firebaseSetup.js
-cocktailApi.js
+#cocktailApi.js
 .firebaserc
 firebase.json
 firestore.indexes.json
