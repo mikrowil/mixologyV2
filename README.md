@@ -21,5 +21,7 @@ Just kidding. But if you want a random drink then thats what it does.
 follow this link: [MixologyV2](https://expo.io/@mikrowil/projects/Mixology) 
 
 
-For more information check out our wiki
+# For more information check out our wiki or documentation
+
+[documentation](https://mikrowil.github.io/mixologyV2/)
 
