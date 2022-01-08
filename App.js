@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import {StyleSheet} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import HomeStack from "./src/stacks/HomeStack";
@@ -32,7 +33,9 @@ const App = () => {
 
     return (
         <Provider store={store}>
-            <NavContainer/>
+            <View style={styles.container}>
+                <NavContainer/>
+            </View>
         </Provider>
     );
 }
@@ -61,7 +64,7 @@ const NavContainer = () => {
 
 
     return (
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer ref={navigationRef} >
             <Stack.Navigator screenOptions={{
                 headerShown: false
             }}>
@@ -85,57 +88,66 @@ const MainApp = () => {
 
     return (
 
-        <Drawer.Navigator drawerContentOptions={{
-            activeTintColor: '#e67bec',
-            inactiveTintColor: '#ebebeb',
-            itemStyle: {marginVertical: 15}
-        }} drawerStyle={{
-            backgroundColor: '#242525',
-            paddingTop: 20,
-        }} drawerType="back"
-                          screenOptions={{
-                              headerShown: true,
-                              header: () => (
-                                  <HeaderCustom/>
-                              )
-                          }}
-        >
-            <Drawer.Screen options={{
-                drawerIcon: ({focused, size}) => (
-                    <AntDesign name={"home"} color={focused ? "#e67bec" : "#ebebeb"} size={24}/>
-                ),
-            }} name={"Home"} component={HomeStack}/>
-            <Drawer.Screen options={{
-                title: "Account",
-                drawerIcon: ({focused, size}) => (
-                    <AntDesign name="user" size={24} color={focused ? "#e67bec" : "#ebebeb"}/>
-                ),
-            }} name={"AccountScreen"} component={AccountScreen}/>
-            <Drawer.Screen options={{
-                drawerIcon: ({focused, size}) => (
-                    <AntDesign name={"meh"} color={focused ? "#e67bec" : "#ebebeb"} size={24}/>
-                ),
-            }} name={"Mood"} component={MoodStack}/>
-            <Drawer.Screen name={"Favorites"} component={FavoriteStack} options={{
-                title: "Favorites",
-                drawerIcon: ({focused, size}) => (
-                    <AntDesign size={24} color={focused ? "#e67bec" : "#ebebeb"} name={"hearto"}/>
-                )
-            }}/>
-            <Drawer.Screen name={"SearchStack"} component={SearchStack} options={{
-                title: "Search",
-                header: () => (
-                    <HeaderCustom withSearch={true}/>
-                ),
-                drawerIcon: ({focused, size}) => (
-                    <Feather color={focused ? "#e67bec" : "#ebebeb"} size={24} name="search"/>
-                )
-            }}/>
+        <View style={styles.container}>
+            <Drawer.Navigator drawerContentOptions={{
+                activeTintColor: '#e67bec',
+                inactiveTintColor: '#ebebeb',
+                itemStyle: {marginVertical: 15}
+            }} drawerStyle={{
+                backgroundColor: '#242525',
+                paddingTop: 20,
+            }} drawerType="back"
+                              screenOptions={{
+                                  headerShown: true,
+                                  header: () => (
+                                      <HeaderCustom/>
+                                  )
+                              }}
+            >
+                <Drawer.Screen options={{
+                    drawerIcon: ({focused, size}) => (
+                        <AntDesign name={"home"} color={focused ? "#e67bec" : "#ebebeb"} size={24}/>
+                    ),
+                }} name={"Home"} component={HomeStack}/>
+                <Drawer.Screen options={{
+                    title: "Account",
+                    drawerIcon: ({focused, size}) => (
+                        <AntDesign name="user" size={24} color={focused ? "#e67bec" : "#ebebeb"}/>
+                    ),
+                }} name={"AccountScreen"} component={AccountScreen}/>
+                <Drawer.Screen options={{
+                    drawerIcon: ({focused, size}) => (
+                        <AntDesign name={"meh"} color={focused ? "#e67bec" : "#ebebeb"} size={24}/>
+                    ),
+                }} name={"Mood"} component={MoodStack}/>
+                <Drawer.Screen name={"Favorites"} component={FavoriteStack} options={{
+                    title: "Favorites",
+                    drawerIcon: ({focused, size}) => (
+                        <AntDesign size={24} color={focused ? "#e67bec" : "#ebebeb"} name={"hearto"}/>
+                    )
+                }}/>
+                <Drawer.Screen name={"SearchStack"} component={SearchStack} options={{
+                    title: "Search",
+                    header: () => (
+                        <HeaderCustom withSearch={true}/>
+                    ),
+                    drawerIcon: ({focused, size}) => (
+                        <Feather color={focused ? "#e67bec" : "#ebebeb"} size={24} name="search"/>
+                    )
+                }}/>
 
-        </Drawer.Navigator>
+            </Drawer.Navigator>
+        </View>
 
     )
 }
 
+
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        backgroundColor:'#323233'
+    }
+})
 
 export default App

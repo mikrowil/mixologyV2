@@ -120,7 +120,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.9,
         shadowOffset: {width: 2, height: 3},
         shadowRadius: 3,
-        elevation: 5,
+        elevation: 1,
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 10
 
     },
     lineBreak: {

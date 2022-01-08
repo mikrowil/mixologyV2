@@ -1,13 +1,14 @@
 import React from "react";
 import {ImageBackground, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
+import DropShadow from 'react-native-drop-shadow'
 
 /**
-    Card meant to be displayed on the ResultList component when
-    horizontal is set to true
-    @param {object} item - the drink to be shown
-    @param {bool} isFave - determines if drink is in the users favorite list
-    @returns {JSX.Element} - The drink card component
+ Card meant to be displayed on the ResultList component when
+ horizontal is set to true
+ @param {object} item - the drink to be shown
+ @param {bool} isFave - determines if drink is in the users favorite list
+ @returns {JSX.Element} - The drink card component
  */
 const DrinkCard = ({item, isFave}) => {
     const navigation = useNavigation()
@@ -16,10 +17,10 @@ const DrinkCard = ({item, isFave}) => {
     const id = item.idDrink
 
     /**
-    Handles the navigation to the show drink screen from the id provided to the
-    DrinkCard component
+     Handles the navigation to the show drink screen from the id provided to the
+     DrinkCard component
      */
-    const handleNavigation = ()=>{
+    const handleNavigation = () => {
         navigation.navigate("ShowScreen", {
             id: id,
             isFave,
@@ -29,26 +30,15 @@ const DrinkCard = ({item, isFave}) => {
 
     return (
         <View>
-            <TouchableOpacity onPress={handleNavigation}
-                              style={{
 
-                                  shadowColor: "#000000",
-                                  shadowOffset: {
-                                      width: 5,
-                                      height: 10
-                                  },
-                                  shadowOpacity: 0.7,
-                                  shadowRadius: 5,
-                                  elevation: 5,
+                <TouchableOpacity onPress={handleNavigation}
+                                  style={styles.touch}>
+                    <ImageBackground imageStyle={{borderRadius: 10}} source={{uri: item.strDrinkThumb}}
+                                     style={[styles.container]}>
+                        <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
+                    </ImageBackground>
+                </TouchableOpacity>
 
-
-                                  marginHorizontal: 5,
-                              }}>
-                <ImageBackground imageStyle={{borderRadius: 10}} source={{uri: item.strDrinkThumb}}
-                                 style={[styles.container]}>
-                    <Text numberOfLines={1} style={styles.text_drink}>{item.strDrink}</Text>
-                </ImageBackground>
-            </TouchableOpacity>
         </View>
     )
 }
@@ -57,10 +47,35 @@ const styles = StyleSheet.create({
     image: {
         width: undefined,
         height: undefined,
-        flex:1,
+        flex: 1,
         marginHorizontal: 10,
         marginVertical: 10,
         borderWidth: 2,
+    },
+
+    dropShadow: {
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 5,
+            height: 10
+        },
+        shadowOpacity: 0.7,
+        shadowRadius: 5,
+    },
+    touch: {
+
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 5,
+            height: 10
+        },
+        shadowOpacity: 0.7,
+        shadowRadius: 5,
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 10,
+
+        marginHorizontal: 5,
     },
     star_container: {
         width: 50,
