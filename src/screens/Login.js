@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import {auth} from "../configs/firebaseSetup";
 import firebase from "firebase";
@@ -8,15 +8,13 @@ import {signIn} from "../redux/actions/authActions";
 import {useDispatch} from "react-redux";
 
 
-/**
- *
- */
+
 const LoginScreen = ({navigation}) => {
 
     const dispatch = useDispatch()
 
     const goToSignUp = () =>{
-        navigation.navigate('signUp')
+        navigation.navigate('signup')
     }
 
     //Calls the signIn action from authActions
@@ -96,8 +94,8 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.subContainer}>
                 <Text style={styles.head}>Mixology</Text>
 
-                <Input placeholder={"Username"}/>
-                <Input placeholder={"Password"}/>
+                <TextInput placeholder={"Email Address"} style={styles.txt_input}/>
+                <TextInput placeholder={"Password"} style={styles.txt_input}/>
                 <Button
                     title={"Sign in"}
                     onPress={callSignIn}
@@ -137,8 +135,13 @@ const styles = StyleSheet.create({
     subContainer: {
         height: '70%',
 
-        alignItems: 'center',
+
         justifyContent: 'space-between'
     },
-    btn_style: {}
+    btn_style: {},
+    txt_input:{
+        borderRadius:10,
+        backgroundColor: '#989898',
+        height: 30
+    }
 });

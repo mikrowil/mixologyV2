@@ -6,7 +6,7 @@ import {CHECK_AUTH, SIGN_UP} from "../types";
  */
 const initState = {
     loggedIn: null,
-    token:String,
+    token:null,
 }
 
 /**

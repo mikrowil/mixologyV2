@@ -15,6 +15,7 @@ import {
     REFRESHING,
 } from "../types";
 import cocktailsApi from "../../api/cocktailApi";
+import {AsyncStorage} from "react-native";
 
 /**
  Calls the backend api to get cocktails listed in the users favorites
@@ -45,8 +46,10 @@ export const fetchPopular = () => async dispatch => {
     toggleRefresh(dispatch, true)
     dispatch({type: LOADING_POPULAR, payload: true})
 
+    const token = await AsyncStorage.getItem('token')
+
     try {
-        const response = await cocktailsApi.get("/popular", [])
+        const response = await cocktailsApi.get("/popular", {headers:{'Authorization': `Bearer ${token}`}})
         //setCocktails(response.data.drinks)
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
 
@@ -66,8 +69,11 @@ export const fetchPopular = () => async dispatch => {
  */
 export const fetchNew = () => async dispatch => {
     dispatch({type: LOADING_NEW, payload: true})
+
+    const token = await AsyncStorage.getItem('token')
+
     try {
-        const response = await cocktailsApi.get(`/new`, [])
+        const response = await cocktailsApi.get(`/new`, {headers:{'Authorization': `Bearer ${token}`}})
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_NEW, payload: myArr})
     } catch (err) {
@@ -82,8 +88,11 @@ export const fetchNew = () => async dispatch => {
  */
 export const fetchCocktails = () => async dispatch => {
     dispatch({type: LOADING_COCKTAILS, payload: true})
+
+    const token = await AsyncStorage.getItem('token')
+
     try {
-        const response = await cocktailsApi.get(`/cocktails`, [])
+        const response = await cocktailsApi.get(`/cocktails`, {headers:{'Authorization': `Bearer ${token}`}})
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_COCKTAILS, payload: myArr})
     } catch (err) {
@@ -98,8 +107,11 @@ export const fetchCocktails = () => async dispatch => {
  */
 export const fetchShots = () => async dispatch => {
     dispatch({type: LOADING_SHOTS, payload: true})
+
+    const token = await AsyncStorage.getItem('token')
+
     try {
-        const response = await cocktailsApi.get(`/shots`, [])
+        const response = await cocktailsApi.get(`/shots`, {headers:{'Authorization': `Bearer ${token}`}})
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_SHOTS, payload: myArr})
     } catch (err) {
@@ -114,8 +126,10 @@ export const fetchShots = () => async dispatch => {
  */
 export const fetchPunches = () => async dispatch => {
     dispatch({type: LOADING_PUNCHES, payload: true})
+    const token = await AsyncStorage.getItem('token')
+
     try {
-        const response = await cocktailsApi.get(`/punches`, [])
+        const response = await cocktailsApi.get(`/punches`, {headers:{'Authorization': `Bearer ${token}`}})
         let myArr = response.data.drinks.filter((x) => x.idDrink !== "178361")
         dispatch({type: FETCH_PUNCHES, payload: myArr})
     } catch (err) {

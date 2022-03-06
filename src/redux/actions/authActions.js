@@ -33,10 +33,10 @@ export const checkAuth = () => async dispatch => {
  * @param password
  * @returns {(function(*): Promise<void>)|*}
  */
-export const signUp = ({username, password}) => async dispatch => {
+export const signUp = ({email, password}) => async dispatch => {
 
     try {
-        const res = await cocktailApi.post('/signup', {username, password})
+        const res = await cocktailApi.post('/signup', {email, password})
         await AsyncStorage.setItem('token', res.data.token)
         dispatch({type: SIGN_UP, payload: res.data.token})
     } catch (e) {
@@ -56,10 +56,10 @@ export const signUp = ({username, password}) => async dispatch => {
  * @param password
  * @returns {(function(*): Promise<void>)|*}
  */
-export const signIn = ({username, password}) => async dispatch => {
+export const signIn = ({email, password}) => async dispatch => {
 
     try {
-        const res = await cocktailApi.post('/signin', {username, password})
+        const res = await cocktailApi.post('/signin', {email, password})
         await AsyncStorage.setItem('token', res.data.token)
         dispatch({type: SIGN_UP, payload: res.data.token})
     } catch (e) {
