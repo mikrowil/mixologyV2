@@ -6,6 +6,7 @@ import {auth, firestore} from "../configs/firebaseSetup";
 import firebase from "firebase";
 import {fetchFavorites} from "../redux/actions/fetchActions";
 import {useDispatch, useSelector} from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 /**
  * The show drink screen shows a drink that has been selected by the user,
@@ -127,7 +128,7 @@ const ShowDrinkScreen = ({route, navigation}) => {
     //Search api for getting drink info
     const searchApi = async () => {
         setIsLoading(true)
-        const token = useSelector(state => state.auth.token)
+        const token = AsyncStorage.getItem("token")
         try {
             const response = await cocktailsApi.get(`/lookup-from-id`, {
                 params: {

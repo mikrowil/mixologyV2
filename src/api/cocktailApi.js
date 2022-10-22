@@ -5,6 +5,6 @@ import axios from "axios";
  fetching data.
  */
 export default axios.create({
-    baseURL: "https://5078-2604-3d08-627e-b100-89cb-2685-45c5-aa57.ngrok.io",
+    baseURL: "https://77d9-2604-3d08-627e-b100-f022-7695-32f8-c879.ngrok.io",
 
 });

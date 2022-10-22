@@ -56,7 +56,8 @@ const NavContainer = () => {
         OpenSans_600SemiBold
     })
 
-    const token = useSelector((state)=> state.auth.token)
+    //const token = useSelector((state)=> state.auth.token)
+    const token = AsyncStorage.getItem("token")
 
     //Loading component shown while fonts are loaded
     if (!fontsLoaded) {

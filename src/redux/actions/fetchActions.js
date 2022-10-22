@@ -57,7 +57,7 @@ export const fetchPopular = () => async dispatch => {
 
 
     } catch (e) {
-        //console.log(e)
+        console.log(e)
     }
     toggleRefresh(dispatch, false)
     dispatch({type: LOADING_POPULAR, payload: false})

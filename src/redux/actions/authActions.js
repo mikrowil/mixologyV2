@@ -61,7 +61,7 @@ export const signIn = ({email, password}) => async dispatch => {
     try {
         const res = await cocktailApi.post('/signin', {email, password})
         await AsyncStorage.setItem('token', res.data.token)
-        dispatch({type: SIGN_UP, payload: res.data.token})
+        dispatch({type: SIGN_IN, payload: res.data.token})
     } catch (e) {
 
         dispatch({
