@@ -38,7 +38,6 @@ const DrinkCardVertical = ({item, isFave}) => {
                                   },
                                   shadowOpacity: 0.7,
                                   shadowRadius: 5,
-                                  elevation: 5,
                                   borderRadius: 20,
                                   marginHorizontal: 5,
                               }}
